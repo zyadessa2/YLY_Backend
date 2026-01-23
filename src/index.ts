@@ -1,4 +1,4 @@
-import bootstrap, { app } from "./bootstrap";
+import bootstrap from "./bootstrap";
 
 // For local development - start server
 if (process.env.NODE_ENV !== 'production') {
@@ -6,4 +6,4 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // For Vercel serverless - export the app
-export default app;
+export default bootstrap();
