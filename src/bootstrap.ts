@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = express();
 
-const bootstrap = async ():Promise<void> =>{
+const bootstrap = async ():Promise<any> =>{
     const port = process.env.PORT || 3000 ;
     
     // Middleware setup - MUST come before routes
@@ -48,10 +48,13 @@ const bootstrap = async ():Promise<void> =>{
     })
 
     // start server
-    app.listen(port , ()=>{
-        console.log("server is running in port" , port);
-        
-    })
+    if (process.env.NODE_ENV !== 'production') {
+        app.listen(port , ()=>{
+            console.log("server is running in port" , port);
+        })
+    }
+
+    return app;
 }
 
 
