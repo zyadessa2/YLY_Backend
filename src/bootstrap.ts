@@ -9,9 +9,12 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 
-import {resolve} from "node:path";
 import {config} from "dotenv";
-config({path: resolve("./.env")});
+
+// Load .env only in development (Vercel uses environment variables directly)
+if (process.env.NODE_ENV !== 'production') {
+    config();
+}
 
 const app = express();
 
