@@ -1,9 +1,10 @@
-import bootstrap from "./bootstrap";
+import { app } from "./bootstrap";
 
-// For local development - start server
 if (process.env.NODE_ENV !== 'production') {
-    bootstrap();
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+        console.log("server is running in port", port);
+    });
 }
 
-// For Vercel serverless - export the app
-export default bootstrap();
+export default app;
