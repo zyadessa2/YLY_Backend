@@ -6,8 +6,5 @@ README.md
 .env
 .env.local
 .env.*.local
-dist
-src
-*.ts
 .next
 .vercel
