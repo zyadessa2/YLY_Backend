@@ -9,7 +9,7 @@ import governorateRouter from './governorateModule/governorate.routes.js';
 const router = Router();
 
 router.use('/auth', authRouter);
-router.use('/user', userRouter);
+router.use('/users', userRouter);
 router.use('/news', newsRouter);
 router.use('/events', eventRouter);
 router.use('/governorates', governorateRouter);

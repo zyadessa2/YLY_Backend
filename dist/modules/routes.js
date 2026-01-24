@@ -12,7 +12,7 @@ const event_routes_js_1 = __importDefault(require("./eventModules/event.routes.j
 const governorate_routes_js_1 = __importDefault(require("./governorateModule/governorate.routes.js"));
 const router = (0, express_1.Router)();
 router.use('/auth', auth_routes_js_1.default);
-router.use('/user', user_routes_js_1.default);
+router.use('/users', user_routes_js_1.default);
 router.use('/news', news_routes_js_1.default);
 router.use('/events', event_routes_js_1.default);
 router.use('/governorates', governorate_routes_js_1.default);
