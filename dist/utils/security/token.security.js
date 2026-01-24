@@ -1,10 +1,10 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 import { sign, verify } from "jsonwebtoken";
 import { UserModel } from "../../DB/models/user.model";
 import { BadRequestException, UnAuthorizedException } from "../response/error.response";
 import { UserRepo } from "../../DB/repos/User.Repo";
-import { TokenRepo } from '../../DB/repos/Token.Repo';
-import { TokenModel } from '../../DB/models/token.model';
+import { TokenRepo } from "../../DB/repos/Token.Repo";
+import { TokenModel } from "../../DB/models/token.model";
 export var TokenTypeEnum;
 (function (TokenTypeEnum) {
     TokenTypeEnum["Access"] = "Access";
@@ -21,7 +21,6 @@ export const generateToken = async ({ payload, secret = process.env.ACCESS_USER_
 export const verifyToken = async ({ token, secret = process.env.ACCESS_USER_TOKEN_SIGNATURE, }) => {
     return verify(token, secret);
 };
-// we create login credentials (access token and refresh token) for user
 export const createLoginCredentials = async (user) => {
     const accessTokenSecret = process.env.ACCESS_USER_TOKEN_SIGNATURE;
     const refreshTokenSecret = process.env.REFRESH_USER_TOKEN_SIGNATURE;
@@ -45,7 +44,6 @@ export const decodeToken = async ({ authorization, tokenType = TokenTypeEnum.Acc
     if (!bearerKey || !token) {
         throw new UnAuthorizedException("missing authorization token");
     }
-    // Select correct secret based on token type
     const secret = tokenType === TokenTypeEnum.Refresh
         ? process.env.REFRESH_USER_TOKEN_SIGNATURE
         : process.env.ACCESS_USER_TOKEN_SIGNATURE;
@@ -69,8 +67,7 @@ export const createRevokeToken = async (decoded) => {
     const tokenModel = new TokenRepo(TokenModel);
     const results = await tokenModel.create([{
             jti: decoded.jti,
-            expiresIn: decoded.iat +
-                Number(process.env.REFRESH_TOKEN_EXPIRES_IN),
+            expiresIn: decoded.iat + Number(process.env.REFRESH_TOKEN_EXPIRES_IN),
             userId: decoded.userId,
         }]);
     const result = Array.isArray(results) ? results[0] : results;

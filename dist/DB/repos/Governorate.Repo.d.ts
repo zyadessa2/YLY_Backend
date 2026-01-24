@@ -5,11 +5,27 @@ export declare class GovernorateRepo extends DBRepo<IGovernorate> {
     /**
      * Find governorate by slug
      */
-    findBySlug(slug: string): Promise<any>;
+    findBySlug(slug: string): Promise<(import("mongoose").Document<unknown, {}, IGovernorate, {}, {}> & IGovernorate & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    }) | (import("mongoose").Document<unknown, {}, import("mongoose").FlattenMaps<IGovernorate>, {}, {}> & import("mongoose").FlattenMaps<IGovernorate> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    }) | null>;
     /**
      * Find governorate by name
      */
-    findByName(name: string): Promise<any>;
+    findByName(name: string): Promise<(import("mongoose").Document<unknown, {}, IGovernorate, {}, {}> & IGovernorate & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    }) | (import("mongoose").Document<unknown, {}, import("mongoose").FlattenMaps<IGovernorate>, {}, {}> & import("mongoose").FlattenMaps<IGovernorate> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    }) | null>;
     /**
      * Get governorates with statistics
      */

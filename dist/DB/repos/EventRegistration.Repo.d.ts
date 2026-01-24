@@ -9,7 +9,15 @@ export declare class EventRegistrationRepo extends DBRepo<IEventRegistration> {
     /**
      * Get registrations by event
      */
-    getByEvent(eventId: string, status?: string): Promise<HydratedDocument<T>[] | HydratedDocument<FlattenMaps<T_1>>[]>;
+    getByEvent(eventId: string, status?: string): Promise<(import("mongoose").Document<unknown, {}, IEventRegistration, {}, {}> & IEventRegistration & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    })[] | (import("mongoose").Document<unknown, {}, import("mongoose").FlattenMaps<IEventRegistration>, {}, {}> & import("mongoose").FlattenMaps<IEventRegistration> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    })[]>;
     /**
      * Count registrations by status
      */

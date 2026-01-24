@@ -1,11 +1,10 @@
-import { v4 as uuid } from 'uuid'
-import { sign, verify } from "jsonwebtoken"
-import type { JwtPayload, Secret, SignOptions } from "jsonwebtoken"
+import { v4 as uuid } from "uuid";
+import { sign, verify, type JwtPayload, type Secret, type SignOptions } from "jsonwebtoken";
 import { HUserDocument, UserModel } from "../../DB/models/user.model";
 import { BadRequestException, UnAuthorizedException } from "../response/error.response";
 import { UserRepo } from "../../DB/repos/User.Repo";
-import { TokenRepo } from '../../DB/repos/Token.Repo';
-import { HTokenDocument, TokenModel } from '../../DB/models/token.model';
+import { TokenRepo } from "../../DB/repos/Token.Repo";
+import { HTokenDocument, TokenModel } from "../../DB/models/token.model";
 
 export enum TokenTypeEnum {
     Access = "Access",
@@ -27,7 +26,7 @@ export const generateToken = async ({
     options?: SignOptions
 }): Promise<string> => {
     return sign(payload, secret, options);
-}
+};
 
 export const verifyToken = async ({
     token,
@@ -37,9 +36,8 @@ export const verifyToken = async ({
     secret?: Secret,
 }): Promise<JwtPayload> => {
     return verify(token, secret) as JwtPayload;
-}
+};
 
-// we create login credentials (access token and refresh token) for user
 export const createLoginCredentials = async (user: HUserDocument) => {
     const accessTokenSecret = process.env.ACCESS_USER_TOKEN_SIGNATURE as string;
     const refreshTokenSecret = process.env.REFRESH_USER_TOKEN_SIGNATURE as string;
@@ -61,8 +59,6 @@ export const createLoginCredentials = async (user: HUserDocument) => {
     return { accessToken, refreshToken };
 };
 
-
-
 export const decodeToken = async ({
     authorization,
     tokenType = TokenTypeEnum.Access
@@ -79,10 +75,9 @@ export const decodeToken = async ({
         throw new UnAuthorizedException("missing authorization token");
     }
     
-    // Select correct secret based on token type
     const secret = tokenType === TokenTypeEnum.Refresh 
-        ? (process.env.REFRESH_USER_TOKEN_SIGNATURE as string)
-        : (process.env.ACCESS_USER_TOKEN_SIGNATURE as string);
+        ? process.env.REFRESH_USER_TOKEN_SIGNATURE as string
+        : process.env.ACCESS_USER_TOKEN_SIGNATURE as string;
 
     const decoded = await verifyToken({ token, secret });
 
@@ -106,13 +101,12 @@ export const decodeToken = async ({
     return { user, decoded }
 };
 
-export const createRevokeToken = async (decoded: JwtPayload) : Promise<HTokenDocument> => {
+export const createRevokeToken = async (decoded: JwtPayload): Promise<HTokenDocument> => {
     const tokenModel = new TokenRepo(TokenModel);
 
     const results = await tokenModel.create([{
         jti: decoded.jti as string,
-        expiresIn: (decoded.iat as number) +
-            Number(process.env.REFRESH_TOKEN_EXPIRES_IN),
+        expiresIn: (decoded.iat as number) + Number(process.env.REFRESH_TOKEN_EXPIRES_IN),
         userId: decoded.userId,
     }]);
     
@@ -122,4 +116,4 @@ export const createRevokeToken = async (decoded: JwtPayload) : Promise<HTokenDoc
         throw new BadRequestException("fail to revoke token")
     }
     return result
-}
+};
