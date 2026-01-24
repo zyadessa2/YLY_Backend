@@ -14,7 +14,7 @@ router.use('/news', newsRouter);
 router.use('/events', eventRouter);
 router.use('/governorates', governorateRouter);
 
-router.all('/*', (req, res) => {
+router.all('{/*s}', (req, res) => {
   res.status(404).json({ message: "API route not found" });
 });
 

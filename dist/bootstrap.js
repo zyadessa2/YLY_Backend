@@ -33,7 +33,7 @@ app.use("/api/v1", routes_js_1.default);
 // DB connection
 (0, connectDB_js_1.DBConnection)().catch(console.error);
 // Invalid route handler 
-app.all('/*', (req, res) => {
+app.all('{/*s}', (req, res) => {
     res.status(404).json({ message: "Route not found" });
 });
 // Global error handler

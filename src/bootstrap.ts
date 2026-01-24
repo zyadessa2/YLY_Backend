@@ -35,7 +35,7 @@ app.use("/api/v1", router);
 DBConnection().catch(console.error);
 
 // Invalid route handler 
-app.all('/*', (req: Request, res: Response) => {
+app.all('{/*s}', (req: Request, res: Response) => {
     res.status(404).json({ message: "Route not found" });
 });
 
