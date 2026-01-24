@@ -8,8 +8,6 @@ const zod_1 = __importDefault(require("zod"));
 const error_response_js_1 = require("../utils/response/error.response.js");
 const validation = (schema) => {
     return (req, res, next) => {
-        console.log(schema);
-        console.log(Object.keys(schema));
         const validationErrors = [];
         for (const key of Object.keys(schema)) {
             if (!schema[key])

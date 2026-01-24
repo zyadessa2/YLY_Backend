@@ -15,8 +15,6 @@ type validationErrorsType = Array<{
 
 export const validation = (schema: schemaType) => {
     return (req: Request, res: Response, next: NextFunction): NextFunction => {
-        console.log(schema);
-        console.log(Object.keys(schema));
         const validationErrors: validationErrorsType = []
 
         for (const key of Object.keys(schema) as KeyReqType[]) {
