@@ -1,0 +1,45 @@
+import mongoose, { Document, HydratedDocument } from 'mongoose';
+export interface IEvent extends Document {
+    _id: mongoose.Types.ObjectId;
+    governorateId: mongoose.Types.ObjectId;
+    title: string;
+    arabicTitle?: string;
+    description: string;
+    arabicDescription?: string;
+    content: string;
+    arabicContent?: string;
+    location: string;
+    arabicLocation?: string;
+    eventDate: Date;
+    eventTime?: string;
+    endDate?: Date;
+    endTime?: string;
+    coverImage: string;
+    contentImages: string[];
+    slug: string;
+    registrationEnabled: boolean;
+    registrationDeadline?: Date;
+    maxParticipants?: number;
+    currentParticipants: number;
+    published: boolean;
+    publishedAt: Date | null;
+    featured: boolean;
+    tags: string[];
+    arabicTags: string[];
+    contactEmail?: string;
+    contactPhone?: string;
+    requirements?: string;
+    arabicRequirements?: string;
+    metaTitle?: string;
+    arabicMetaTitle?: string;
+    metaDescription?: string;
+    arabicMetaDescription?: string;
+    createdBy: mongoose.Types.ObjectId;
+    updatedBy: mongoose.Types.ObjectId;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date | null;
+}
+export declare const EventModel: any;
+export type HEventDocument = HydratedDocument<IEvent>;
+//# sourceMappingURL=event.model.d.ts.map
