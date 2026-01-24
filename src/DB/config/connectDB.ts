@@ -8,9 +8,13 @@ import { AnalyticsModel } from '../models/analytics.model.js';
 import { EventRegistrationModel } from '../models/eventRegistration.model.js';
 
 
-export const DBConnection = async (): Promise<void> =>{
-    return await connect(process.env.MONGODB_URI as string)
-        .then(async ()=>{
+export const DBConnection = async (): Promise<void> => {
+    return await connect(process.env.MONGODB_URI as string, {
+        // important for Atlas
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    } as any) // mongoose TS typing workaround
+        .then(async () => {
             await UserModel.syncIndexes();
             await GovernorateModel.syncIndexes();
             await NewsModel.syncIndexes();
@@ -18,8 +22,9 @@ export const DBConnection = async (): Promise<void> =>{
             await EventRegistrationModel.syncIndexes();
             await TokenModel.syncIndexes();
             await AnalyticsModel.syncIndexes();
-            console.log("DB Connected Successfully");
-        }).catch((error)=>{
-            console.log("DB Connection Failed", error);
+            console.log("✅ DB Connected Successfully");
+        })
+        .catch((error) => {
+            console.log("❌ DB Connection Failed", error);
         });
-}
+};

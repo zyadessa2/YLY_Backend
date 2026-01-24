@@ -10,7 +10,11 @@ const token_model_js_1 = require("../models/token.model.js");
 const analytics_model_js_1 = require("../models/analytics.model.js");
 const eventRegistration_model_js_1 = require("../models/eventRegistration.model.js");
 const DBConnection = async () => {
-    return await (0, mongoose_1.connect)(process.env.MONGODB_URI)
+    return await (0, mongoose_1.connect)(process.env.MONGODB_URI, {
+        // important for Atlas
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }) // mongoose TS typing workaround
         .then(async () => {
         await user_model_js_1.UserModel.syncIndexes();
         await governorate_model_js_1.GovernorateModel.syncIndexes();
@@ -19,9 +23,10 @@ const DBConnection = async () => {
         await eventRegistration_model_js_1.EventRegistrationModel.syncIndexes();
         await token_model_js_1.TokenModel.syncIndexes();
         await analytics_model_js_1.AnalyticsModel.syncIndexes();
-        console.log("DB Connected Successfully");
-    }).catch((error) => {
-        console.log("DB Connection Failed", error);
+        console.log("✅ DB Connected Successfully");
+    })
+        .catch((error) => {
+        console.log("❌ DB Connection Failed", error);
     });
 };
 exports.DBConnection = DBConnection;
