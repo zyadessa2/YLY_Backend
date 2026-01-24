@@ -114,4 +114,14 @@ export declare const updateRegistrationStatusSchema: z.ZodObject<{
         cancelled: "cancelled";
     }>;
 }, z.core.$strip>;
+export declare const getRegistrationsByGovernorateQuerySchema: z.ZodObject<{
+    page: z.ZodPipe<z.ZodOptional<z.ZodString>, z.ZodTransform<number, string | undefined>>;
+    limit: z.ZodPipe<z.ZodOptional<z.ZodString>, z.ZodTransform<number, string | undefined>>;
+    status: z.ZodOptional<z.ZodEnum<{
+        pending: "pending";
+        approved: "approved";
+        rejected: "rejected";
+        cancelled: "cancelled";
+    }>>;
+}, z.core.$strip>;
 //# sourceMappingURL=event.validation.d.ts.map

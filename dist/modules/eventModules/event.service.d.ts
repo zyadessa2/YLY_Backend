@@ -72,5 +72,11 @@ export declare class EventService {
      * Get Events Statistics
      */
     getEventsStats: () => Promise<any>;
+    /**
+     * Get All Registrations by Governorate
+     * Admin can see all registrations across all governorates
+     * Governorate user can only see registrations for events in their governorate
+     */
+    getAllRegistrationsByGovernorate: (userRole: string, userGovernorateId?: string, status?: string, page?: number, limit?: number) => Promise<any>;
 }
 //# sourceMappingURL=event.service.d.ts.map

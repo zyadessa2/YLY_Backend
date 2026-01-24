@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRegistrationStatusSchema = exports.eventRegistrationSchema = exports.getEventsQuerySchema = exports.eventIdParamSchema = exports.updateEventSchema = exports.createEventSchema = void 0;
+exports.getRegistrationsByGovernorateQuerySchema = exports.updateRegistrationStatusSchema = exports.eventRegistrationSchema = exports.getEventsQuerySchema = exports.eventIdParamSchema = exports.updateEventSchema = exports.createEventSchema = void 0;
 const zod_1 = require("zod");
 const validation_schemas_js_1 = require("../../middleware/validation.schemas.js");
 // Create Event Schema
@@ -91,5 +91,11 @@ exports.eventRegistrationSchema = zod_1.z.object({
 // Registration Status Update Schema
 exports.updateRegistrationStatusSchema = zod_1.z.object({
     status: zod_1.z.enum(['approved', 'rejected', 'cancelled'])
+});
+// Get Registrations by Governorate Query Schema
+exports.getRegistrationsByGovernorateQuerySchema = zod_1.z.object({
+    page: zod_1.z.string().optional().transform(val => val ? parseInt(val, 10) : 1),
+    limit: zod_1.z.string().optional().transform(val => val ? parseInt(val, 10) : 10),
+    status: zod_1.z.enum(['pending', 'approved', 'rejected', 'cancelled']).optional()
 });
 //# sourceMappingURL=event.validation.js.map

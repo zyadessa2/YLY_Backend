@@ -6,7 +6,8 @@ import {
     eventIdParamSchema,
     getEventsQuerySchema,
     eventRegistrationSchema,
-    updateRegistrationStatusSchema
+    updateRegistrationStatusSchema,
+    getRegistrationsByGovernorateQuerySchema
 } from './event.validation.js';
 import validation from '../../middleware/validation.middleware.js';
 import { authenticate, authorize, optionalAuthenticate } from '../../middleware/auth.middelware.js';
@@ -34,6 +35,14 @@ router.get('/stats',
     authenticate(), 
     authorize(['admin']), 
     eventController.getEventsStats
+);
+
+// Get All Registrations by Governorate (Admin & Governorate Users)
+router.get('/registrations/by-governorate', 
+    authenticate(), 
+    authorize(['admin', 'governorate_user']),
+    validation({ query: getRegistrationsByGovernorateQuerySchema }),
+    eventController.getAllRegistrationsByGovernorate
 );
 
 // CRUD operations

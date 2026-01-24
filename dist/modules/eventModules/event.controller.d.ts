@@ -86,5 +86,12 @@ export declare class EventController {
      * GET /api/events/stats
      */
     getEventsStats: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+    /**
+     * Get All Registrations by Governorate
+     * GET /api/events/registrations/by-governorate
+     * Admin can see all registrations across all governorates
+     * Governorate user can only see registrations for events in their governorate
+     */
+    getAllRegistrationsByGovernorate: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 }
 //# sourceMappingURL=event.controller.d.ts.map

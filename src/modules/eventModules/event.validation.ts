@@ -105,3 +105,10 @@ export const updateRegistrationStatusSchema = z.object({
   status: z.enum(['approved', 'rejected', 'cancelled'])
 });
 
+// Get Registrations by Governorate Query Schema
+export const getRegistrationsByGovernorateQuerySchema = z.object({
+  page: z.string().optional().transform(val => val ? parseInt(val, 10) : 1),
+  limit: z.string().optional().transform(val => val ? parseInt(val, 10) : 10),
+  status: z.enum(['pending', 'approved', 'rejected', 'cancelled']).optional()
+});
+

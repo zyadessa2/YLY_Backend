@@ -19,6 +19,8 @@ router.post('/:id/register', (0, validation_middleware_js_1.default)({ params: e
 router.delete('/:id/register', (0, validation_middleware_js_1.default)({ params: event_validation_js_1.eventIdParamSchema }), eventController.cancelRegistration);
 // Statistics (Admin only)
 router.get('/stats', (0, auth_middelware_js_1.authenticate)(), (0, auth_middelware_js_1.authorize)(['admin']), eventController.getEventsStats);
+// Get All Registrations by Governorate (Admin & Governorate Users)
+router.get('/registrations/by-governorate', (0, auth_middelware_js_1.authenticate)(), (0, auth_middelware_js_1.authorize)(['admin', 'governorate_user']), (0, validation_middleware_js_1.default)({ query: event_validation_js_1.getRegistrationsByGovernorateQuerySchema }), eventController.getAllRegistrationsByGovernorate);
 // CRUD operations
 router.post('/', (0, auth_middelware_js_1.authenticate)(), (0, auth_middelware_js_1.authorize)(['admin', 'governorate_user']), (0, validation_middleware_js_1.default)({ body: event_validation_js_1.createEventSchema }), eventController.createEvent);
 router.get('/', (0, auth_middelware_js_1.optionalAuthenticate)(), (0, validation_middleware_js_1.default)({ query: event_validation_js_1.getEventsQuerySchema }), eventController.getAllEvents);

@@ -655,4 +655,128 @@ export class EventService {
             byGovernorate: governorateStats
         };
     };
+
+    /**
+     * Get All Registrations by Governorate
+     * Admin can see all registrations across all governorates
+     * Governorate user can only see registrations for events in their governorate
+     */
+    getAllRegistrationsByGovernorate = async (
+        userRole: string,
+        userGovernorateId?: string,
+        status?: string,
+        page: number = 1,
+        limit: number = 10
+    ): Promise<any> => {
+        const { ObjectId } = await import('mongoose').then(m => m.Types);
+        
+        // Build match stage based on user role
+        const eventMatch: any = { deletedAt: null };
+        
+        // If governorate_user, filter by their governorate
+        if (userRole === 'governorate_user') {
+            if (!userGovernorateId) {
+                throw new ForbidenException("Governorate user must have a governorate assigned");
+            }
+            eventMatch.governorateId = new ObjectId(userGovernorateId);
+        }
+
+        // Build registration match
+        const registrationMatch: any = {};
+        if (status) {
+            registrationMatch['registrations.status'] = status;
+        }
+
+        // Aggregation pipeline to get registrations grouped by governorate and event
+        const pipeline: any[] = [
+            // Match events
+            { $match: eventMatch },
+            // Lookup registrations for each event
+            {
+                $lookup: {
+                    from: 'eventregistrations',
+                    localField: '_id',
+                    foreignField: 'eventId',
+                    as: 'registrations'
+                }
+            },
+            // Only include events with registrations
+            { $match: { 'registrations.0': { $exists: true } } },
+            // Apply status filter if provided
+            ...(status ? [{
+                $addFields: {
+                    registrations: {
+                        $filter: {
+                            input: '$registrations',
+                            as: 'reg',
+                            cond: { $eq: ['$$reg.status', status] }
+                        }
+                    }
+                }
+            }] : []),
+            // Filter out events with no registrations after status filter
+            ...(status ? [{ $match: { 'registrations.0': { $exists: true } } }] : []),
+            // Lookup governorate info
+            {
+                $lookup: {
+                    from: 'governorates',
+                    localField: 'governorateId',
+                    foreignField: '_id',
+                    as: 'governorate'
+                }
+            },
+            { $unwind: '$governorate' },
+            // Group by governorate
+            {
+                $group: {
+                    _id: '$governorateId',
+                    governorateName: { $first: '$governorate.name' },
+                    governorateArabicName: { $first: '$governorate.arabicName' },
+                    governorateSlug: { $first: '$governorate.slug' },
+                    events: {
+                        $push: {
+                            eventId: '$_id',
+                            title: '$title',
+                            arabicTitle: '$arabicTitle',
+                            eventDate: '$eventDate',
+                            location: '$location',
+                            arabicLocation: '$arabicLocation',
+                            coverImage: '$coverImage',
+                            registrationCount: { $size: '$registrations' },
+                            registrations: '$registrations'
+                        }
+                    },
+                    totalRegistrations: { $sum: { $size: '$registrations' } }
+                }
+            },
+            // Sort by governorate name
+            { $sort: { governorateName: 1 } }
+        ];
+
+        const results = await this.eventRepo.aggregate(pipeline);
+
+        // Calculate overall statistics
+        const overallStats = {
+            totalGovernorates: results.length,
+            totalEvents: results.reduce((acc: number, gov: any) => acc + gov.events.length, 0),
+            totalRegistrations: results.reduce((acc: number, gov: any) => acc + gov.totalRegistrations, 0)
+        };
+
+        // Apply pagination to governorates
+        const startIndex = (page - 1) * limit;
+        const paginatedResults = results.slice(startIndex, startIndex + limit);
+
+        return {
+            data: paginatedResults,
+            statistics: overallStats,
+            pagination: {
+                page,
+                limit,
+                totalItems: results.length,
+                totalPages: Math.ceil(results.length / limit),
+                hasNextPage: startIndex + limit < results.length,
+                hasPrevPage: page > 1
+            }
+        };
+    };
 }

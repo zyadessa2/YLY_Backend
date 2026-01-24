@@ -368,6 +368,32 @@ class EventController {
                 next(error);
             }
         };
+        /**
+         * Get All Registrations by Governorate
+         * GET /api/events/registrations/by-governorate
+         * Admin can see all registrations across all governorates
+         * Governorate user can only see registrations for events in their governorate
+         */
+        this.getAllRegistrationsByGovernorate = async (req, res, next) => {
+            try {
+                const userRole = req.user?.role;
+                const userGovernorateId = req.user?.governorateId?.toString();
+                const status = req.query.status;
+                const page = parseInt(req.query.page) || 1;
+                const limit = parseInt(req.query.limit) || 10;
+                if (!userRole)
+                    throw Error("User role is required");
+                const result = await this.eventService.getAllRegistrationsByGovernorate(userRole, userGovernorateId, status, page, limit);
+                (0, success_response_js_1.successResponse)({
+                    res,
+                    message: "Registrations by governorate retrieved successfully",
+                    data: result
+                });
+            }
+            catch (error) {
+                next(error);
+            }
+        };
     }
 }
 exports.EventController = EventController;
