@@ -1,6 +1,12 @@
-import { model, models, Schema } from 'mongoose';
-import slugify from 'slugify';
-const governorateSchema = new Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GovernorateModel = void 0;
+const mongoose_1 = require("mongoose");
+const slugify_1 = __importDefault(require("slugify"));
+const governorateSchema = new mongoose_1.Schema({
     name: {
         type: String,
         required: [true, 'Governorate name is required'],
@@ -45,7 +51,7 @@ const governorateSchema = new Schema({
 // Pre-save middleware to generate slug
 governorateSchema.pre('save', function (next) {
     if (this.isModified('name') || !this.slug) {
-        this.slug = slugify(this.name, {
+        this.slug = (0, slugify_1.default)(this.name, {
             lower: true,
             strict: true,
             trim: true,
@@ -67,5 +73,5 @@ governorateSchema.virtual('eventsCount', {
     foreignField: 'governorateId',
     count: true,
 });
-export const GovernorateModel = models.Governorate || model('Governorate', governorateSchema);
+exports.GovernorateModel = mongoose_1.models.Governorate || (0, mongoose_1.model)('Governorate', governorateSchema);
 //# sourceMappingURL=governorate.model.js.map

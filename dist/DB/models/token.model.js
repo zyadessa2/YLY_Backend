@@ -1,9 +1,12 @@
-import { model } from 'mongoose';
-import { Schema, models } from 'mongoose';
-const tokenSchema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TokenModel = void 0;
+const mongoose_1 = require("mongoose");
+const mongoose_2 = require("mongoose");
+const tokenSchema = new mongoose_2.Schema({
     jti: { type: String, required: true, unique: true },
     expiresIn: { type: Number, required: true },
-    userId: { type: Schema.Types.ObjectId, ref: "user", required: true }
+    userId: { type: mongoose_2.Schema.Types.ObjectId, ref: "user", required: true }
 }, { timestamps: true });
-export const TokenModel = models.Token || model("Token", tokenSchema);
+exports.TokenModel = mongoose_2.models.Token || (0, mongoose_1.model)("Token", tokenSchema);
 //# sourceMappingURL=token.model.js.map

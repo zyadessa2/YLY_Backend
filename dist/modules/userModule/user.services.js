@@ -1,11 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserService = void 0;
 // user.service.ts
-import { BadRequestException, ConflictException, NotFoundException } from '../../utils/response/error.response.js';
-import { generateHash } from '../../utils/security/hash.security.js';
-import { GovernorateModel } from '../../DB/models/governorate.model.js';
-import { UserRepo } from '../../DB/repos/User.Repo.js';
-export class UserService {
+const error_response_js_1 = require("../../utils/response/error.response.js");
+const hash_security_js_1 = require("../../utils/security/hash.security.js");
+const governorate_model_js_1 = require("../../DB/models/governorate.model.js");
+const User_Repo_js_1 = require("../../DB/repos/User.Repo.js");
+class UserService {
     constructor() {
-        this.userRepo = new UserRepo();
+        this.userRepo = new User_Repo_js_1.UserRepo();
         /**
          * Create User (Admin only)
          */
@@ -16,31 +19,31 @@ export class UserService {
                 filter: { email }
             });
             if (existingUser) {
-                throw new ConflictException("Email already exists");
+                throw new error_response_js_1.ConflictException("Email already exists");
             }
             // Validate governorate for governorate_user
             if (role === 'governorate_user') {
                 if (!governorateId) {
-                    throw new BadRequestException("Governorate ID is required for governorate users");
+                    throw new error_response_js_1.BadRequestException("Governorate ID is required for governorate users");
                 }
                 // Check if governorate exists
-                const governorate = await GovernorateModel.findById(governorateId);
+                const governorate = await governorate_model_js_1.GovernorateModel.findById(governorateId);
                 if (!governorate) {
-                    throw new NotFoundException("Governorate not found");
+                    throw new error_response_js_1.NotFoundException("Governorate not found");
                 }
                 // Check if governorate already has a user
                 const existingGovernorateUser = await this.userRepo.findOne({
                     filter: { governorateId, deletedAt: null }
                 });
                 if (existingGovernorateUser) {
-                    throw new ConflictException("This governorate already has an assigned user");
+                    throw new error_response_js_1.ConflictException("This governorate already has an assigned user");
                 }
             }
             else if (role === 'admin' && governorateId) {
-                throw new BadRequestException("Admin users cannot have a governorate assigned");
+                throw new error_response_js_1.BadRequestException("Admin users cannot have a governorate assigned");
             }
             // Hash password
-            const hashedPassword = await generateHash(password);
+            const hashedPassword = await (0, hash_security_js_1.generateHash)(password);
             // Create user
             const newUser = await this.userRepo.create({
                 email,
@@ -52,7 +55,7 @@ export class UserService {
             // Handle array result from create
             const createdUser = Array.isArray(newUser) ? newUser[0] : newUser;
             if (!createdUser) {
-                throw new BadRequestException("Failed to create user");
+                throw new error_response_js_1.BadRequestException("Failed to create user");
             }
             // Populate and return
             const populatedUser = await this.userRepo.findById({
@@ -91,7 +94,7 @@ export class UserService {
                 populate: [{ path: 'governorateId', select: 'name arabicName slug logo coverImage description' }]
             });
             if (!user) {
-                throw new NotFoundException("User not found");
+                throw new error_response_js_1.NotFoundException("User not found");
             }
             const userResponse = user.toObject();
             const { password: _, refreshToken: __, ...safeUserResponse } = userResponse;
@@ -103,7 +106,7 @@ export class UserService {
         this.updateUser = async (userId, updateData) => {
             const user = await this.userRepo.findById({ id: userId });
             if (!user) {
-                throw new NotFoundException("User not found");
+                throw new error_response_js_1.NotFoundException("User not found");
             }
             // Check email uniqueness if changing email
             if (updateData.email && updateData.email !== user.email) {
@@ -114,14 +117,14 @@ export class UserService {
                     }
                 });
                 if (existingUser) {
-                    throw new ConflictException("Email already exists");
+                    throw new error_response_js_1.ConflictException("Email already exists");
                 }
             }
             // Validate governorate change
             if (updateData.governorateId) {
-                const governorate = await GovernorateModel.findById(updateData.governorateId);
+                const governorate = await governorate_model_js_1.GovernorateModel.findById(updateData.governorateId);
                 if (!governorate) {
-                    throw new NotFoundException("Governorate not found");
+                    throw new error_response_js_1.NotFoundException("Governorate not found");
                 }
                 // Check if another user is assigned to this governorate
                 const existingGovernorateUser = await this.userRepo.findOne({
@@ -132,12 +135,12 @@ export class UserService {
                     }
                 });
                 if (existingGovernorateUser) {
-                    throw new ConflictException("This governorate already has an assigned user");
+                    throw new error_response_js_1.ConflictException("This governorate already has an assigned user");
                 }
             }
             // Hash password if provided
             if (updateData.password) {
-                updateData.password = await generateHash(updateData.password);
+                updateData.password = await (0, hash_security_js_1.generateHash)(updateData.password);
                 // Note: refreshToken will be cleared by auth middleware on next login
             }
             // Update user
@@ -154,7 +157,7 @@ export class UserService {
         this.deleteUser = async (userId) => {
             const user = await this.userRepo.findById({ id: userId });
             if (!user) {
-                throw new NotFoundException("User not found");
+                throw new error_response_js_1.NotFoundException("User not found");
             }
             // Soft delete
             await this.userRepo.softDeleteById({ id: userId });
@@ -165,7 +168,7 @@ export class UserService {
         this.toggleUserStatus = async (userId) => {
             const user = await this.userRepo.findById({ id: userId });
             if (!user) {
-                throw new NotFoundException("User not found");
+                throw new error_response_js_1.NotFoundException("User not found");
             }
             // Toggle status
             await this.userRepo.updateOne({
@@ -231,10 +234,10 @@ export class UserService {
         this.resetUserPassword = async (userId, newPassword) => {
             const user = await this.userRepo.findById({ id: userId });
             if (!user) {
-                throw new NotFoundException("User not found");
+                throw new error_response_js_1.NotFoundException("User not found");
             }
             // Hash new password
-            const hashedPassword = await generateHash(newPassword);
+            const hashedPassword = await (0, hash_security_js_1.generateHash)(newPassword);
             // Update password and clear refresh token
             await this.userRepo.updateOne({
                 filter: { _id: userId },
@@ -253,10 +256,10 @@ export class UserService {
                 options: { includeDeleted: true }
             });
             if (!user) {
-                throw new NotFoundException("User not found");
+                throw new error_response_js_1.NotFoundException("User not found");
             }
             if (!user.deletedAt) {
-                throw new BadRequestException("User is not deleted");
+                throw new error_response_js_1.BadRequestException("User is not deleted");
             }
             // Restore user
             await this.userRepo.restore({ filter: { _id: userId } });
@@ -264,4 +267,5 @@ export class UserService {
         };
     }
 }
+exports.UserService = UserService;
 //# sourceMappingURL=user.services.js.map

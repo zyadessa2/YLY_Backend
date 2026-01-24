@@ -1,14 +1,20 @@
-import z from 'zod';
-import { generalFeilds } from '../../middleware/validation.middleware.js';
-export const loginSchema = {
-    body: z.strictObject({
-        email: generalFeilds.email,
-        password: generalFeilds.password,
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.refreshTokenSchema = exports.loginSchema = void 0;
+const zod_1 = __importDefault(require("zod"));
+const validation_middleware_js_1 = require("../../middleware/validation.middleware.js");
+exports.loginSchema = {
+    body: zod_1.default.strictObject({
+        email: validation_middleware_js_1.generalFeilds.email,
+        password: validation_middleware_js_1.generalFeilds.password,
     })
 };
-export const refreshTokenSchema = {
-    headers: z.object({
-        authorization: z.string()
+exports.refreshTokenSchema = {
+    headers: zod_1.default.object({
+        authorization: zod_1.default.string()
             .min(1, 'Authorization header is required')
             .refine(val => val.startsWith('Bearer '), 'Authorization header must start with "Bearer" - Format: Bearer <token>')
             .refine(val => val.length > 7, // "Bearer " = 7 characters

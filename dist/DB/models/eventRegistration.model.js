@@ -1,7 +1,10 @@
-import { model, models, Schema } from 'mongoose';
-const eventRegistrationSchema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventRegistrationModel = void 0;
+const mongoose_1 = require("mongoose");
+const eventRegistrationSchema = new mongoose_1.Schema({
     eventId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Event',
         required: [true, 'Event is required'],
         index: true,
@@ -66,5 +69,5 @@ eventRegistrationSchema.virtual('event', {
     foreignField: '_id',
     justOne: true,
 });
-export const EventRegistrationModel = models.EventRegistration || model('EventRegistration', eventRegistrationSchema);
+exports.EventRegistrationModel = mongoose_1.models.EventRegistration || (0, mongoose_1.model)('EventRegistration', eventRegistrationSchema);
 //# sourceMappingURL=eventRegistration.model.js.map

@@ -1,12 +1,15 @@
-import { AnalyticsModel } from '../../DB/models/analytics.model.js';
-import { GovernorateModel } from '../../DB/models/governorate.model.js';
-import { EventRepo } from '../../DB/repos/Event.Repo.js';
-import { EventRegistrationRepo } from '../../DB/repos/EventRegistration.Repo.js';
-import { BadRequestException, NotFoundException, ForbidenException, ConflictException } from '../../utils/response/error.response.js';
-export class EventService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventService = void 0;
+const analytics_model_js_1 = require("../../DB/models/analytics.model.js");
+const governorate_model_js_1 = require("../../DB/models/governorate.model.js");
+const Event_Repo_js_1 = require("../../DB/repos/Event.Repo.js");
+const EventRegistration_Repo_js_1 = require("../../DB/repos/EventRegistration.Repo.js");
+const error_response_js_1 = require("../../utils/response/error.response.js");
+class EventService {
     constructor() {
-        this.eventRepo = new EventRepo();
-        this.registrationRepo = new EventRegistrationRepo();
+        this.eventRepo = new Event_Repo_js_1.EventRepo();
+        this.registrationRepo = new EventRegistration_Repo_js_1.EventRegistrationRepo();
         /**
          * Create Event
          */
@@ -14,14 +17,14 @@ export class EventService {
             // If user is governorate_user, force their governorateId
             if (userRole === 'governorate_user') {
                 if (!userGovernorateId) {
-                    throw new ForbidenException("Governorate user must have a governorate assigned");
+                    throw new error_response_js_1.ForbidenException("Governorate user must have a governorate assigned");
                 }
                 eventData.governorateId = userGovernorateId;
             }
             // Validate governorate exists
-            const governorate = await GovernorateModel.findById(eventData.governorateId);
+            const governorate = await governorate_model_js_1.GovernorateModel.findById(eventData.governorateId);
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             // Create event
             const newEvent = await this.eventRepo.create({
@@ -33,7 +36,7 @@ export class EventService {
             // Handle create return (can be single or array)
             const createdEvent = Array.isArray(newEvent) ? newEvent[0] : newEvent;
             if (!createdEvent) {
-                throw new BadRequestException("Failed to create event");
+                throw new error_response_js_1.BadRequestException("Failed to create event");
             }
             // Populate and return
             const populatedEvent = await this.eventRepo.findById({
@@ -115,7 +118,7 @@ export class EventService {
                 ]
             });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             return event;
         };
@@ -125,11 +128,11 @@ export class EventService {
         this.getEventBySlug = async (slug) => {
             const event = await this.eventRepo.findBySlug(slug);
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             // Only return if published (for public access)
             if (!event.published) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             return event;
         };
@@ -139,33 +142,33 @@ export class EventService {
         this.updateEvent = async (eventId, updateData, userId, userRole, userGovernorateId) => {
             const event = await this.eventRepo.findById({ id: eventId });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             // Check permissions
             if (userRole === 'governorate_user') {
                 // User can only update events from their governorate
                 if (event.governorateId.toString() !== userGovernorateId) {
-                    throw new ForbidenException("You can only update events from your governorate");
+                    throw new error_response_js_1.ForbidenException("You can only update events from your governorate");
                 }
                 // User can only update events they created
                 if (event.createdBy.toString() !== userId) {
-                    throw new ForbidenException("You can only update events you created");
+                    throw new error_response_js_1.ForbidenException("You can only update events you created");
                 }
             }
             // If changing governorate, validate
             if (updateData.governorateId && updateData.governorateId !== event.governorateId.toString()) {
-                const governorate = await GovernorateModel.findById(updateData.governorateId);
+                const governorate = await governorate_model_js_1.GovernorateModel.findById(updateData.governorateId);
                 if (!governorate) {
-                    throw new NotFoundException("Governorate not found");
+                    throw new error_response_js_1.NotFoundException("Governorate not found");
                 }
             }
             // Validate published/publishedAt relation
             if (updateData.published && !updateData.publishedAt && !event.publishedAt) {
-                throw new BadRequestException("Published date is required when publishing event");
+                throw new error_response_js_1.BadRequestException("Published date is required when publishing event");
             }
             // Validate max participants vs current participants
             if (updateData.maxParticipants && updateData.maxParticipants < event.currentParticipants) {
-                throw new BadRequestException(`Cannot set max participants to ${updateData.maxParticipants}. Current participants: ${event.currentParticipants}`);
+                throw new error_response_js_1.BadRequestException(`Cannot set max participants to ${updateData.maxParticipants}. Current participants: ${event.currentParticipants}`);
             }
             // Update event
             const updatePayload = {
@@ -185,17 +188,17 @@ export class EventService {
         this.deleteEvent = async (eventId, userId, userRole, userGovernorateId) => {
             const event = await this.eventRepo.findById({ id: eventId });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             // Check permissions
             if (userRole === 'governorate_user') {
                 // User can only delete events from their governorate
                 if (event.governorateId.toString() !== userGovernorateId) {
-                    throw new ForbidenException("You can only delete events from your governorate");
+                    throw new error_response_js_1.ForbidenException("You can only delete events from your governorate");
                 }
                 // User can only delete events they created
                 if (event.createdBy.toString() !== userId) {
-                    throw new ForbidenException("You can only delete events you created");
+                    throw new error_response_js_1.ForbidenException("You can only delete events you created");
                 }
             }
             // Soft delete
@@ -219,7 +222,7 @@ export class EventService {
         this.toggleFeatured = async (eventId, userId) => {
             const event = await this.eventRepo.findById({ id: eventId });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             await this.eventRepo.updateOne({
                 filter: { _id: eventId },
@@ -236,7 +239,7 @@ export class EventService {
         this.togglePublished = async (eventId, userId) => {
             const event = await this.eventRepo.findById({ id: eventId });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             // If publishing and no publishedAt, set it to now
             const updateData = {
@@ -258,15 +261,15 @@ export class EventService {
         this.toggleRegistration = async (eventId, userId, userRole, userGovernorateId) => {
             const event = await this.eventRepo.findById({ id: eventId });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             // Check permissions
             if (userRole === 'governorate_user') {
                 if (event.governorateId.toString() !== userGovernorateId) {
-                    throw new ForbidenException("You can only modify events from your governorate");
+                    throw new error_response_js_1.ForbidenException("You can only modify events from your governorate");
                 }
                 if (event.createdBy.toString() !== userId) {
-                    throw new ForbidenException("You can only modify events you created");
+                    throw new error_response_js_1.ForbidenException("You can only modify events you created");
                 }
             }
             await this.eventRepo.updateOne({
@@ -284,32 +287,32 @@ export class EventService {
         this.registerForEvent = async (eventId, registrationData) => {
             const event = await this.eventRepo.findById({ id: eventId });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             // Check if event is published
             if (!event.published) {
-                throw new BadRequestException("Cannot register for unpublished event");
+                throw new error_response_js_1.BadRequestException("Cannot register for unpublished event");
             }
             // Check if registration is enabled
             if (!event.registrationEnabled) {
-                throw new BadRequestException("Registration is not enabled for this event");
+                throw new error_response_js_1.BadRequestException("Registration is not enabled for this event");
             }
             // Check if registration deadline passed
             if (event.registrationDeadline && new Date() > event.registrationDeadline) {
-                throw new BadRequestException("Registration deadline has passed");
+                throw new error_response_js_1.BadRequestException("Registration deadline has passed");
             }
             // Check if event already passed
             if (event.eventDate < new Date()) {
-                throw new BadRequestException("Cannot register for past events");
+                throw new error_response_js_1.BadRequestException("Cannot register for past events");
             }
             // Check if max participants reached
             if (event.maxParticipants && event.currentParticipants >= event.maxParticipants) {
-                throw new BadRequestException("Event is full. Maximum participants reached");
+                throw new error_response_js_1.BadRequestException("Event is full. Maximum participants reached");
             }
             // Check if user already registered
             const alreadyRegistered = await this.registrationRepo.isUserRegistered(eventId, registrationData.email);
             if (alreadyRegistered) {
-                throw new ConflictException("You are already registered for this event");
+                throw new error_response_js_1.ConflictException("You are already registered for this event");
             }
             // Create registration
             const registration = await this.registrationRepo.create({
@@ -321,7 +324,7 @@ export class EventService {
             // Increment participant count
             await this.eventRepo.incrementParticipants(eventId);
             // Track in analytics
-            await AnalyticsModel.incrementEventsView(event.governorateId.toString());
+            await analytics_model_js_1.AnalyticsModel.incrementEventsView(event.governorateId.toString());
             return registration;
         };
         /**
@@ -330,15 +333,15 @@ export class EventService {
         this.getEventRegistrations = async (eventId, userId, userRole, userGovernorateId, status) => {
             const event = await this.eventRepo.findById({ id: eventId });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             // Check permissions
             if (userRole === 'governorate_user') {
                 if (event.governorateId.toString() !== userGovernorateId) {
-                    throw new ForbidenException("You can only view registrations from your governorate events");
+                    throw new error_response_js_1.ForbidenException("You can only view registrations from your governorate events");
                 }
                 if (event.createdBy.toString() !== userId) {
-                    throw new ForbidenException("You can only view registrations for events you created");
+                    throw new error_response_js_1.ForbidenException("You can only view registrations for events you created");
                 }
             }
             return await this.registrationRepo.getByEvent(eventId, status);
@@ -349,19 +352,19 @@ export class EventService {
         this.updateRegistrationStatus = async (registrationId, statusData, userId, userRole, userGovernorateId) => {
             const registration = await this.registrationRepo.findById({ id: registrationId });
             if (!registration) {
-                throw new NotFoundException("Registration not found");
+                throw new error_response_js_1.NotFoundException("Registration not found");
             }
             const event = await this.eventRepo.findById({ id: registration.eventId.toString() });
             if (!event) {
-                throw new NotFoundException("Event not found");
+                throw new error_response_js_1.NotFoundException("Event not found");
             }
             // Check permissions
             if (userRole === 'governorate_user') {
                 if (event.governorateId.toString() !== userGovernorateId) {
-                    throw new ForbidenException("You can only modify registrations from your governorate events");
+                    throw new error_response_js_1.ForbidenException("You can only modify registrations from your governorate events");
                 }
                 if (event.createdBy.toString() !== userId) {
-                    throw new ForbidenException("You can only modify registrations for events you created");
+                    throw new error_response_js_1.ForbidenException("You can only modify registrations for events you created");
                 }
             }
             const updateData = {
@@ -395,10 +398,10 @@ export class EventService {
                 filter: { eventId, email }
             });
             if (!registration) {
-                throw new NotFoundException("Registration not found");
+                throw new error_response_js_1.NotFoundException("Registration not found");
             }
             if (registration.status === 'cancelled') {
-                throw new BadRequestException("Registration is already cancelled");
+                throw new error_response_js_1.BadRequestException("Registration is already cancelled");
             }
             await this.registrationRepo.updateOne({
                 filter: { _id: registration._id },
@@ -497,4 +500,5 @@ export class EventService {
         };
     }
 }
+exports.EventService = EventService;
 //# sourceMappingURL=event.service.js.map

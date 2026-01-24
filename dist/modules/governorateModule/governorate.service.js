@@ -1,11 +1,14 @@
-import { EventModel } from '../../DB/models/event.model.js';
-import { NewsModel } from '../../DB/models/news.model.js';
-import { UserModel } from '../../DB/models/user.model.js';
-import { GovernorateRepo } from '../../DB/repos/Governorate.Repo.js';
-import { BadRequestException, NotFoundException, ConflictException } from '../../utils/response/error.response.js';
-export class GovernorateService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GovernorateService = void 0;
+const event_model_js_1 = require("../../DB/models/event.model.js");
+const news_model_js_1 = require("../../DB/models/news.model.js");
+const user_model_js_1 = require("../../DB/models/user.model.js");
+const Governorate_Repo_js_1 = require("../../DB/repos/Governorate.Repo.js");
+const error_response_js_1 = require("../../utils/response/error.response.js");
+class GovernorateService {
     constructor() {
-        this.governorateRepo = new GovernorateRepo();
+        this.governorateRepo = new Governorate_Repo_js_1.GovernorateRepo();
         /**
          * Create Governorate (Admin only)
          */
@@ -13,7 +16,7 @@ export class GovernorateService {
             // Check if name already exists
             const nameExists = await this.governorateRepo.nameExists(governorateData.name);
             if (nameExists) {
-                throw new ConflictException("Governorate name already exists");
+                throw new error_response_js_1.ConflictException("Governorate name already exists");
             }
             // Create governorate
             const newGovernorate = await this.governorateRepo.create(governorateData);
@@ -63,7 +66,7 @@ export class GovernorateService {
                 id: governorateId
             });
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             return governorate;
         };
@@ -73,7 +76,7 @@ export class GovernorateService {
         this.getGovernorateBySlug = async (slug) => {
             const governorate = await this.governorateRepo.findBySlug(slug);
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             return governorate;
         };
@@ -85,21 +88,21 @@ export class GovernorateService {
                 id: governorateId
             });
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             // Get statistics
             const [newsCount, publishedNewsCount, eventsCount, publishedEventsCount, upcomingEventsCount, usersCount] = await Promise.all([
-                NewsModel.countDocuments({ governorateId, deletedAt: null }),
-                NewsModel.countDocuments({ governorateId, published: true, deletedAt: null }),
-                EventModel.countDocuments({ governorateId, deletedAt: null }),
-                EventModel.countDocuments({ governorateId, published: true, deletedAt: null }),
-                EventModel.countDocuments({
+                news_model_js_1.NewsModel.countDocuments({ governorateId, deletedAt: null }),
+                news_model_js_1.NewsModel.countDocuments({ governorateId, published: true, deletedAt: null }),
+                event_model_js_1.EventModel.countDocuments({ governorateId, deletedAt: null }),
+                event_model_js_1.EventModel.countDocuments({ governorateId, published: true, deletedAt: null }),
+                event_model_js_1.EventModel.countDocuments({
                     governorateId,
                     published: true,
                     eventDate: { $gte: new Date() },
                     deletedAt: null
                 }),
-                UserModel.countDocuments({ governorateId, isActive: true, deletedAt: null })
+                user_model_js_1.UserModel.countDocuments({ governorateId, isActive: true, deletedAt: null })
             ]);
             return {
                 ...governorate.toObject(),
@@ -121,13 +124,13 @@ export class GovernorateService {
                 id: governorateId
             });
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             // Check if name already exists (if changing name)
             if (updateData.name && updateData.name !== governorate.name) {
                 const nameExists = await this.governorateRepo.nameExists(updateData.name, governorateId);
                 if (nameExists) {
-                    throw new ConflictException("Governorate name already exists");
+                    throw new error_response_js_1.ConflictException("Governorate name already exists");
                 }
             }
             // Update governorate
@@ -146,23 +149,23 @@ export class GovernorateService {
                 id: governorateId
             });
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             // Check if governorate has users
-            const usersCount = await UserModel.countDocuments({
+            const usersCount = await user_model_js_1.UserModel.countDocuments({
                 governorateId,
                 deletedAt: null
             });
             if (usersCount > 0) {
-                throw new BadRequestException(`Cannot delete governorate. It has ${usersCount} assigned user(s). Please reassign or delete users first.`);
+                throw new error_response_js_1.BadRequestException(`Cannot delete governorate. It has ${usersCount} assigned user(s). Please reassign or delete users first.`);
             }
             // Check if governorate has news or events
             const [newsCount, eventsCount] = await Promise.all([
-                NewsModel.countDocuments({ governorateId, deletedAt: null }),
-                EventModel.countDocuments({ governorateId, deletedAt: null })
+                news_model_js_1.NewsModel.countDocuments({ governorateId, deletedAt: null }),
+                event_model_js_1.EventModel.countDocuments({ governorateId, deletedAt: null })
             ]);
             if (newsCount > 0 || eventsCount > 0) {
-                throw new BadRequestException(`Cannot delete governorate. It has ${newsCount} news and ${eventsCount} events. Please delete them first.`);
+                throw new error_response_js_1.BadRequestException(`Cannot delete governorate. It has ${newsCount} news and ${eventsCount} events. Please delete them first.`);
             }
             // Delete governorate
             await this.governorateRepo.deleteOne({
@@ -183,7 +186,7 @@ export class GovernorateService {
                 id: governorateId
             });
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             const filter = {
                 governorateId,
@@ -193,13 +196,13 @@ export class GovernorateService {
                 filter.published = published;
             }
             const [news, total] = await Promise.all([
-                NewsModel.find(filter)
+                news_model_js_1.NewsModel.find(filter)
                     .populate('createdBy', 'email role')
                     .sort({ publishedAt: -1, createdAt: -1 })
                     .skip((page - 1) * limit)
                     .limit(limit)
                     .lean(),
-                NewsModel.countDocuments(filter)
+                news_model_js_1.NewsModel.countDocuments(filter)
             ]);
             const totalPages = Math.ceil(total / limit);
             return {
@@ -222,7 +225,7 @@ export class GovernorateService {
                 id: governorateId
             });
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             const filter = {
                 governorateId,
@@ -235,13 +238,13 @@ export class GovernorateService {
                 filter.eventDate = { $gte: new Date() };
             }
             const [events, total] = await Promise.all([
-                EventModel.find(filter)
+                event_model_js_1.EventModel.find(filter)
                     .populate('createdBy', 'email role')
                     .sort({ eventDate: 1 })
                     .skip((page - 1) * limit)
                     .limit(limit)
                     .lean(),
-                EventModel.countDocuments(filter)
+                event_model_js_1.EventModel.countDocuments(filter)
             ]);
             const totalPages = Math.ceil(total / limit);
             return {
@@ -264,12 +267,12 @@ export class GovernorateService {
                 id: governorateId
             });
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             // Get detailed statistics
             const [newsStats, eventsStats, usersStats, topNews, upcomingEvents] = await Promise.all([
                 // News statistics
-                NewsModel.aggregate([
+                news_model_js_1.NewsModel.aggregate([
                     { $match: { governorateId: governorate._id, deletedAt: null } },
                     {
                         $group: {
@@ -286,7 +289,7 @@ export class GovernorateService {
                     }
                 ]),
                 // Events statistics
-                EventModel.aggregate([
+                event_model_js_1.EventModel.aggregate([
                     { $match: { governorateId: governorate._id, deletedAt: null } },
                     {
                         $group: {
@@ -303,7 +306,7 @@ export class GovernorateService {
                     }
                 ]),
                 // Users statistics
-                UserModel.aggregate([
+                user_model_js_1.UserModel.aggregate([
                     { $match: { governorateId: governorate._id, deletedAt: null } },
                     {
                         $group: {
@@ -316,7 +319,7 @@ export class GovernorateService {
                     }
                 ]),
                 // Top 5 news by views
-                NewsModel.find({
+                news_model_js_1.NewsModel.find({
                     governorateId,
                     published: true,
                     deletedAt: null
@@ -326,7 +329,7 @@ export class GovernorateService {
                     .limit(5)
                     .lean(),
                 // Upcoming events
-                EventModel.find({
+                event_model_js_1.EventModel.find({
                     governorateId,
                     published: true,
                     eventDate: { $gte: new Date() },
@@ -367,4 +370,5 @@ export class GovernorateService {
         };
     }
 }
+exports.GovernorateService = GovernorateService;
 //# sourceMappingURL=governorate.service.js.map

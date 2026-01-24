@@ -1,8 +1,14 @@
-import { model, models, Schema } from 'mongoose';
-import slugify from 'slugify';
-const newsSchema = new Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NewsModel = void 0;
+const mongoose_1 = require("mongoose");
+const slugify_1 = __importDefault(require("slugify"));
+const newsSchema = new mongoose_1.Schema({
     governorateId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Governorate',
         required: [true, 'Governorate is required'],
         index: true,
@@ -143,13 +149,13 @@ const newsSchema = new Schema({
         maxlength: [300, 'Arabic meta description cannot exceed 300 characters'],
     },
     createdBy: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'Creator is required'],
         index: true,
     },
     updatedBy: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'Updater is required'],
     },
@@ -173,7 +179,7 @@ newsSchema.index({ tags: 1, published: 1, deletedAt: 1 });
 // Pre-save middleware to generate slug
 newsSchema.pre('save', async function (next) {
     if (this.isModified('title') || !this.slug) {
-        let baseSlug = slugify(this.title, {
+        let baseSlug = (0, slugify_1.default)(this.title, {
             lower: true,
             strict: true,
             trim: true,
@@ -213,5 +219,5 @@ newsSchema.virtual('creator', {
     foreignField: '_id',
     justOne: true,
 });
-export const NewsModel = models.News || model('News', newsSchema);
+exports.NewsModel = mongoose_1.models.News || (0, mongoose_1.model)('News', newsSchema);
 //# sourceMappingURL=news.model.js.map

@@ -1,11 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.resetPasswordSchema = exports.userIdParamSchema = exports.updateUserSchema = exports.createUserSchema = void 0;
 // user.validation.ts
-import { z } from 'zod';
+const zod_1 = require("zod");
 // Create User Schema
-export const createUserSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
-    role: z.enum(['admin', 'governorate_user']),
-    governorateId: z.string().optional()
+exports.createUserSchema = zod_1.z.object({
+    email: zod_1.z.string().email(),
+    password: zod_1.z.string().min(6),
+    role: zod_1.z.enum(['admin', 'governorate_user']),
+    governorateId: zod_1.z.string().optional()
 }).refine((data) => {
     if (data.role === 'governorate_user' && !data.governorateId) {
         return false;
@@ -19,18 +22,18 @@ export const createUserSchema = z.object({
     path: ['governorateId']
 });
 // Update User Schema
-export const updateUserSchema = z.object({
-    email: z.string().email().optional(),
-    password: z.string().min(6).optional(),
-    governorateId: z.string().optional(),
-    isActive: z.boolean().optional()
+exports.updateUserSchema = zod_1.z.object({
+    email: zod_1.z.string().email().optional(),
+    password: zod_1.z.string().min(6).optional(),
+    governorateId: zod_1.z.string().optional(),
+    isActive: zod_1.z.boolean().optional()
 });
 // User ID Param Schema - MongoDB ObjectId format
-export const userIdParamSchema = z.object({
-    id: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid MongoDB ID")
+exports.userIdParamSchema = zod_1.z.object({
+    id: zod_1.z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid MongoDB ID")
 });
 // Reset Password Schema
-export const resetPasswordSchema = z.object({
-    newPassword: z.string().min(6)
+exports.resetPasswordSchema = zod_1.z.object({
+    newPassword: zod_1.z.string().min(6)
 });
 //# sourceMappingURL=user.validation.js.map

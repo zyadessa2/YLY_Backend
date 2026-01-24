@@ -1,6 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.globalErrorHandler = exports.ConflictException = exports.ForbidenException = exports.UnAuthorizedException = exports.NotFoundException = exports.BadRequestException = exports.AppError = void 0;
 // we extend the built-in Error class to create a custom AppError class
 //we make this for more control over the error handling
-export class AppError extends Error {
+class AppError extends Error {
     // statusCode is public so we can access it outside the class
     constructor(message, statusCode = 400, cause) {
         super(message, { cause });
@@ -11,36 +14,43 @@ export class AppError extends Error {
         Error.captureStackTrace(this, this.constructor);
     }
 }
-export class BadRequestException extends AppError {
+exports.AppError = AppError;
+class BadRequestException extends AppError {
     constructor(message, cause) {
         super(message, 400, cause);
     }
 }
-export class NotFoundException extends AppError {
+exports.BadRequestException = BadRequestException;
+class NotFoundException extends AppError {
     constructor(message, cause) {
         super(message, 404, cause);
     }
 }
-export class UnAuthorizedException extends AppError {
+exports.NotFoundException = NotFoundException;
+class UnAuthorizedException extends AppError {
     constructor(message, cause) {
         super(message, 401, cause);
     }
 }
-export class ForbidenException extends AppError {
+exports.UnAuthorizedException = UnAuthorizedException;
+class ForbidenException extends AppError {
     constructor(message, cause) {
         super(message, 403, cause);
     }
 }
-export class ConflictException extends AppError {
+exports.ForbidenException = ForbidenException;
+class ConflictException extends AppError {
     constructor(message, cause) {
         super(message, 409, cause);
     }
 }
-export const globalErrorHandler = (error, req, res, next) => {
+exports.ConflictException = ConflictException;
+const globalErrorHandler = (error, req, res, next) => {
     return res.status(error.statusCode || 500).json({
         err_message: error.message || "Internal Server Error",
         stack: error.stack || "No stack trace available",
         cause: error.cause
     });
 };
+exports.globalErrorHandler = globalErrorHandler;
 //# sourceMappingURL=error.response.js.map

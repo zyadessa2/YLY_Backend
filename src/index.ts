@@ -1,4 +1,4 @@
-import { app } from './bootstrap.js';
+import { app } from './bootstrap';
 
 if (process.env.NODE_ENV !== "production") {
     const port = process.env.PORT || 3000;

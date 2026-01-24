@@ -1,6 +1,9 @@
-import { models, Schema } from 'mongoose';
-import { model } from 'mongoose';
-const analyticsSchema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AnalyticsModel = void 0;
+const mongoose_1 = require("mongoose");
+const mongoose_2 = require("mongoose");
+const analyticsSchema = new mongoose_1.Schema({
     date: {
         type: Date,
         required: [true, 'Date is required'],
@@ -153,5 +156,5 @@ analyticsSchema.statics.getTopGovernoratesByVisits = async function (limit = 10)
     ]);
     return result;
 };
-export const AnalyticsModel = models.Analytics || model('Analytics', analyticsSchema);
+exports.AnalyticsModel = mongoose_1.models.Analytics || (0, mongoose_2.model)('Analytics', analyticsSchema);
 //# sourceMappingURL=analytics.model.js.map

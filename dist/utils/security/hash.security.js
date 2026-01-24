@@ -1,9 +1,14 @@
-import { compare, genSalt, hash } from 'bcrypt';
-export const generateHash = async (plainText, saltRound = Number(process.env.SALT)) => {
-    const salt = await genSalt(saltRound);
-    return await hash(plainText, salt);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.compareHash = exports.generateHash = void 0;
+const bcrypt_1 = require("bcrypt");
+const generateHash = async (plainText, saltRound = Number(process.env.SALT)) => {
+    const salt = await (0, bcrypt_1.genSalt)(saltRound);
+    return await (0, bcrypt_1.hash)(plainText, salt);
 };
-export const compareHash = async (plainText, hash) => {
-    return await compare(plainText, hash);
+exports.generateHash = generateHash;
+const compareHash = async (plainText, hash) => {
+    return await (0, bcrypt_1.compare)(plainText, hash);
 };
+exports.compareHash = compareHash;
 //# sourceMappingURL=hash.security.js.map

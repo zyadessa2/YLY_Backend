@@ -1,8 +1,11 @@
-import { GovernorateModel } from '../models/governorate.model.js';
-import { DBRepo } from './DBRepo.js';
-export class GovernorateRepo extends DBRepo {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GovernorateRepo = void 0;
+const governorate_model_js_1 = require("../models/governorate.model.js");
+const DBRepo_js_1 = require("./DBRepo.js");
+class GovernorateRepo extends DBRepo_js_1.DBRepo {
     constructor() {
-        super(GovernorateModel);
+        super(governorate_model_js_1.GovernorateModel);
     }
     /**
      * Find governorate by slug
@@ -161,4 +164,5 @@ export class GovernorateRepo extends DBRepo {
         return await this.exists({ filter });
     }
 }
+exports.GovernorateRepo = GovernorateRepo;
 //# sourceMappingURL=Governorate.Repo.js.map

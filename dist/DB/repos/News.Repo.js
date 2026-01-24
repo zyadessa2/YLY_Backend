@@ -1,8 +1,11 @@
-import { NewsModel } from '../models/news.model.js';
-import { DBRepo } from './DBRepo.js';
-export class NewsRepo extends DBRepo {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NewsRepo = void 0;
+const news_model_js_1 = require("../models/news.model.js");
+const DBRepo_js_1 = require("./DBRepo.js");
+class NewsRepo extends DBRepo_js_1.DBRepo {
     constructor() {
-        super(NewsModel);
+        super(news_model_js_1.NewsModel);
     }
     /**
      * Find news by slug
@@ -104,4 +107,5 @@ export class NewsRepo extends DBRepo {
         ]);
     }
 }
+exports.NewsRepo = NewsRepo;
 //# sourceMappingURL=News.Repo.js.map

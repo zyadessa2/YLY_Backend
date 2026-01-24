@@ -1,38 +1,41 @@
-import { z } from 'zod';
-import { generalFields, mongoIdSchema } from '../../middleware/validation.schemas.js';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateRegistrationStatusSchema = exports.eventRegistrationSchema = exports.getEventsQuerySchema = exports.eventIdParamSchema = exports.updateEventSchema = exports.createEventSchema = void 0;
+const zod_1 = require("zod");
+const validation_schemas_js_1 = require("../../middleware/validation.schemas.js");
 // Create Event Schema
-export const createEventSchema = z.object({
-    governorateId: generalFields.governorateId,
-    title: generalFields.title,
-    arabicTitle: generalFields.arabicTitle,
-    description: generalFields.description,
-    arabicDescription: generalFields.arabicDescription,
-    content: generalFields.content,
-    arabicContent: generalFields.arabicContent,
-    location: generalFields.location,
-    arabicLocation: z.string().max(500).trim().optional(),
-    eventDate: generalFields.eventDate,
-    eventTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).optional(),
-    endDate: generalFields.eventDate.optional(),
-    endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).optional(),
-    coverImage: generalFields.coverImage,
-    contentImages: generalFields.contentImages,
-    registrationEnabled: z.boolean().default(false),
-    registrationDeadline: generalFields.eventDate.optional(),
-    maxParticipants: z.number().min(1).optional(),
-    published: generalFields.published,
-    publishedAt: generalFields.publishedAt,
-    featured: generalFields.featured,
-    tags: generalFields.tags,
-    arabicTags: generalFields.arabicTags,
-    contactEmail: generalFields.email.optional(),
-    contactPhone: z.string().regex(/^(\+?20)?1[0125]\d{8}$/).optional(),
-    requirements: z.string().max(1000).optional(),
-    arabicRequirements: z.string().max(1000).optional(),
-    metaTitle: generalFields.metaTitle,
-    metaDescription: generalFields.metaDescription,
-    arabicMetaTitle: generalFields.metaTitle,
-    arabicMetaDescription: generalFields.metaDescription
+exports.createEventSchema = zod_1.z.object({
+    governorateId: validation_schemas_js_1.generalFields.governorateId,
+    title: validation_schemas_js_1.generalFields.title,
+    arabicTitle: validation_schemas_js_1.generalFields.arabicTitle,
+    description: validation_schemas_js_1.generalFields.description,
+    arabicDescription: validation_schemas_js_1.generalFields.arabicDescription,
+    content: validation_schemas_js_1.generalFields.content,
+    arabicContent: validation_schemas_js_1.generalFields.arabicContent,
+    location: validation_schemas_js_1.generalFields.location,
+    arabicLocation: zod_1.z.string().max(500).trim().optional(),
+    eventDate: validation_schemas_js_1.generalFields.eventDate,
+    eventTime: zod_1.z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).optional(),
+    endDate: validation_schemas_js_1.generalFields.eventDate.optional(),
+    endTime: zod_1.z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).optional(),
+    coverImage: validation_schemas_js_1.generalFields.coverImage,
+    contentImages: validation_schemas_js_1.generalFields.contentImages,
+    registrationEnabled: zod_1.z.boolean().default(false),
+    registrationDeadline: validation_schemas_js_1.generalFields.eventDate.optional(),
+    maxParticipants: zod_1.z.number().min(1).optional(),
+    published: validation_schemas_js_1.generalFields.published,
+    publishedAt: validation_schemas_js_1.generalFields.publishedAt,
+    featured: validation_schemas_js_1.generalFields.featured,
+    tags: validation_schemas_js_1.generalFields.tags,
+    arabicTags: validation_schemas_js_1.generalFields.arabicTags,
+    contactEmail: validation_schemas_js_1.generalFields.email.optional(),
+    contactPhone: zod_1.z.string().regex(/^(\+?20)?1[0125]\d{8}$/).optional(),
+    requirements: zod_1.z.string().max(1000).optional(),
+    arabicRequirements: zod_1.z.string().max(1000).optional(),
+    metaTitle: validation_schemas_js_1.generalFields.metaTitle,
+    metaDescription: validation_schemas_js_1.generalFields.metaDescription,
+    arabicMetaTitle: validation_schemas_js_1.generalFields.metaTitle,
+    arabicMetaDescription: validation_schemas_js_1.generalFields.metaDescription
 }).refine((data) => {
     if (data.endDate && data.eventDate && data.endDate < data.eventDate) {
         return false;
@@ -59,34 +62,34 @@ export const createEventSchema = z.object({
     path: ['registrationDeadline']
 });
 // Update Event Schema
-export const updateEventSchema = createEventSchema.partial();
+exports.updateEventSchema = exports.createEventSchema.partial();
 // Event ID Param Schema
-export const eventIdParamSchema = z.object({
-    id: mongoIdSchema
+exports.eventIdParamSchema = zod_1.z.object({
+    id: validation_schemas_js_1.mongoIdSchema
 });
 // Get Events Query Schema
-export const getEventsQuerySchema = z.object({
-    page: z.string().optional().transform(val => val ? parseInt(val, 10) : 1),
-    limit: z.string().optional().transform(val => val ? parseInt(val, 10) : 10),
-    governorateId: mongoIdSchema.optional(),
-    published: z.enum(['true', 'false']).optional().transform(val => val === 'true'),
-    featured: z.enum(['true', 'false']).optional().transform(val => val === 'true'),
-    upcoming: z.enum(['true', 'false']).optional().transform(val => val === 'true'),
-    registrationEnabled: z.enum(['true', 'false']).optional().transform(val => val === 'true'),
-    search: z.string().optional(),
-    tags: z.string().optional(),
-    sortBy: z.enum(['createdAt', 'publishedAt', 'eventDate', 'title']).optional().default('eventDate'),
-    sortOrder: z.enum(['asc', 'desc']).optional().default('asc')
+exports.getEventsQuerySchema = zod_1.z.object({
+    page: zod_1.z.string().optional().transform(val => val ? parseInt(val, 10) : 1),
+    limit: zod_1.z.string().optional().transform(val => val ? parseInt(val, 10) : 10),
+    governorateId: validation_schemas_js_1.mongoIdSchema.optional(),
+    published: zod_1.z.enum(['true', 'false']).optional().transform(val => val === 'true'),
+    featured: zod_1.z.enum(['true', 'false']).optional().transform(val => val === 'true'),
+    upcoming: zod_1.z.enum(['true', 'false']).optional().transform(val => val === 'true'),
+    registrationEnabled: zod_1.z.enum(['true', 'false']).optional().transform(val => val === 'true'),
+    search: zod_1.z.string().optional(),
+    tags: zod_1.z.string().optional(),
+    sortBy: zod_1.z.enum(['createdAt', 'publishedAt', 'eventDate', 'title']).optional().default('eventDate'),
+    sortOrder: zod_1.z.enum(['asc', 'desc']).optional().default('asc')
 });
 // Event Registration Schema
-export const eventRegistrationSchema = z.object({
-    name: z.string().min(2).max(100).trim(),
-    email: z.string().email().toLowerCase().trim(),
-    phone: z.string().regex(/^(\+?20)?1[0125]\d{8}$/, 'Invalid Egyptian phone number'),
-    notes: z.string().max(500).trim().optional()
+exports.eventRegistrationSchema = zod_1.z.object({
+    name: zod_1.z.string().min(2).max(100).trim(),
+    email: zod_1.z.string().email().toLowerCase().trim(),
+    phone: zod_1.z.string().regex(/^(\+?20)?1[0125]\d{8}$/, 'Invalid Egyptian phone number'),
+    notes: zod_1.z.string().max(500).trim().optional()
 });
 // Registration Status Update Schema
-export const updateRegistrationStatusSchema = z.object({
-    status: z.enum(['approved', 'rejected', 'cancelled'])
+exports.updateRegistrationStatusSchema = zod_1.z.object({
+    status: zod_1.z.enum(['approved', 'rejected', 'cancelled'])
 });
 //# sourceMappingURL=event.validation.js.map

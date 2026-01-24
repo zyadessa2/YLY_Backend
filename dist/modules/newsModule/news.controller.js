@@ -1,8 +1,11 @@
-import { NewsService } from './new.services.js';
-import { successResponse } from '../../utils/response/success.response.js';
-export class NewsController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NewsController = void 0;
+const new_services_js_1 = require("./new.services.js");
+const success_response_js_1 = require("../../utils/response/success.response.js");
+class NewsController {
     constructor() {
-        this.newsService = new NewsService();
+        this.newsService = new new_services_js_1.NewsService();
         /**
          * Create News
          * POST /api/news
@@ -17,7 +20,7 @@ export class NewsController {
                     throw new Error("User ID is required");
                 }
                 const result = await this.newsService.createNews(newsData, userId, userRole || 'admin', userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "News created successfully",
                     data: result,
@@ -38,7 +41,7 @@ export class NewsController {
                 const userRole = req.user?.role;
                 const userGovernorateId = req.user?.governorateId?.toString();
                 const result = await this.newsService.getAllNews(query, userRole, userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "News retrieved successfully",
                     data: result
@@ -59,7 +62,7 @@ export class NewsController {
                     throw new Error("News ID is required");
                 }
                 const result = await this.newsService.getNewsById(newsId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "News retrieved successfully",
                     data: result
@@ -80,7 +83,7 @@ export class NewsController {
                     throw new Error("Slug is required");
                 }
                 const result = await this.newsService.getNewsBySlug(slug);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "News retrieved successfully",
                     data: result
@@ -108,7 +111,7 @@ export class NewsController {
                     throw new Error("User ID is required");
                 }
                 const result = await this.newsService.updateNews(newsId, updateData, userId, userRole || 'admin', userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "News updated successfully",
                     data: result
@@ -135,7 +138,7 @@ export class NewsController {
                     throw new Error("User ID is required");
                 }
                 await this.newsService.deleteNews(newsId, userId, userRole || 'admin', userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "News deleted successfully",
                     data: null
@@ -156,7 +159,7 @@ export class NewsController {
                     throw new Error("News ID is required");
                 }
                 await this.newsService.incrementViewCount(newsId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "View count incremented",
                     data: null
@@ -175,7 +178,7 @@ export class NewsController {
                 const governorateId = req.query.governorateId;
                 const limit = parseInt(req.query.limit) || 5;
                 const result = await this.newsService.getFeaturedNews(governorateId, limit);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Featured news retrieved successfully",
                     data: result
@@ -197,7 +200,7 @@ export class NewsController {
                 }
                 const limit = parseInt(req.query.limit) || 5;
                 const result = await this.newsService.getRelatedNews(newsId, limit);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Related news retrieved successfully",
                     data: result
@@ -214,7 +217,7 @@ export class NewsController {
         this.getNewsStats = async (req, res, next) => {
             try {
                 const result = await this.newsService.getNewsStats();
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "News statistics retrieved successfully",
                     data: result
@@ -239,7 +242,7 @@ export class NewsController {
                     throw new Error("User ID is required");
                 }
                 const result = await this.newsService.toggleFeatured(newsId, userId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: `News ${result.featured ? 'featured' : 'unfeatured'} successfully`,
                     data: result
@@ -264,7 +267,7 @@ export class NewsController {
                     throw new Error("User ID is required");
                 }
                 const result = await this.newsService.togglePublished(newsId, userId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: `News ${result.published ? 'published' : 'unpublished'} successfully`,
                     data: result
@@ -276,4 +279,5 @@ export class NewsController {
         };
     }
 }
+exports.NewsController = NewsController;
 //# sourceMappingURL=news.controller.js.map

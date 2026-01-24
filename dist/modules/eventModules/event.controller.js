@@ -1,8 +1,11 @@
-import { EventService } from './event.service.js';
-import { successResponse } from '../../utils/response/success.response.js';
-export class EventController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventController = void 0;
+const event_service_js_1 = require("./event.service.js");
+const success_response_js_1 = require("../../utils/response/success.response.js");
+class EventController {
     constructor() {
-        this.eventService = new EventService();
+        this.eventService = new event_service_js_1.EventService();
         /**
          * Create Event
          * POST /api/events
@@ -16,7 +19,7 @@ export class EventController {
                 if (!userId || !userRole)
                     throw Error("User ID and role are required");
                 const result = await this.eventService.createEvent(eventData, userId, userRole, userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Event created successfully",
                     data: result,
@@ -37,7 +40,7 @@ export class EventController {
                 const userRole = req.user?.role;
                 const userGovernorateId = req.user?.governorateId?.toString();
                 const result = await this.eventService.getAllEvents(query, userRole, userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Events retrieved successfully",
                     data: result
@@ -57,7 +60,7 @@ export class EventController {
                 if (!eventId)
                     throw Error("Event ID is required");
                 const result = await this.eventService.getEventById(eventId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Event retrieved successfully",
                     data: result
@@ -77,7 +80,7 @@ export class EventController {
                 if (!slug)
                     throw Error("Slug is required");
                 const result = await this.eventService.getEventBySlug(slug);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Event retrieved successfully",
                     data: result
@@ -101,7 +104,7 @@ export class EventController {
                 if (!eventId || !userId || !userRole)
                     throw Error("Event ID, user ID and role are required");
                 const result = await this.eventService.updateEvent(eventId, updateData, userId, userRole, userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Event updated successfully",
                     data: result
@@ -124,7 +127,7 @@ export class EventController {
                 if (!eventId || !userId || !userRole)
                     throw Error("Event ID, user ID and role are required");
                 await this.eventService.deleteEvent(eventId, userId, userRole, userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Event deleted successfully",
                     data: null
@@ -143,7 +146,7 @@ export class EventController {
                 const governorateId = req.query.governorateId;
                 const limit = parseInt(req.query.limit) || 5;
                 const result = await this.eventService.getFeaturedEvents(governorateId, limit);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Featured events retrieved successfully",
                     data: result
@@ -162,7 +165,7 @@ export class EventController {
                 const governorateId = req.query.governorateId;
                 const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
                 const result = await this.eventService.getUpcomingEvents(governorateId, limit);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Upcoming events retrieved successfully",
                     data: result
@@ -183,7 +186,7 @@ export class EventController {
                 if (!eventId || !userId)
                     throw Error("Event ID and user ID are required");
                 const result = await this.eventService.toggleFeatured(eventId, userId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: `Event ${result.featured ? 'featured' : 'unfeatured'} successfully`,
                     data: result
@@ -204,7 +207,7 @@ export class EventController {
                 if (!eventId || !userId)
                     throw Error("Event ID and user ID are required");
                 const result = await this.eventService.togglePublished(eventId, userId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: `Event ${result.published ? 'published' : 'unpublished'} successfully`,
                     data: result
@@ -227,7 +230,7 @@ export class EventController {
                 if (!eventId || !userId || !userRole)
                     throw Error("Event ID, user ID and role are required");
                 const result = await this.eventService.toggleRegistration(eventId, userId, userRole, userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: `Event registration ${result.registrationEnabled ? 'opened' : 'closed'} successfully`,
                     data: result
@@ -248,7 +251,7 @@ export class EventController {
                 if (!eventId)
                     throw Error("Event ID is required");
                 const result = await this.eventService.registerForEvent(eventId, registrationData);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Registration submitted successfully",
                     data: result,
@@ -273,7 +276,7 @@ export class EventController {
                 if (!eventId || !userId || !userRole)
                     throw Error("Event ID, user ID and role are required");
                 const result = await this.eventService.getEventRegistrations(eventId, userId, userRole, userGovernorateId, status);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Event registrations retrieved successfully",
                     data: result
@@ -297,7 +300,7 @@ export class EventController {
                 if (!registrationId || !userId || !userRole)
                     throw Error("Registration ID, user ID and role are required");
                 const result = await this.eventService.updateRegistrationStatus(registrationId, statusData, userId, userRole, userGovernorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Registration status updated successfully",
                     data: result
@@ -318,7 +321,7 @@ export class EventController {
                 if (!eventId || !email)
                     throw Error("Event ID and email are required");
                 await this.eventService.cancelRegistration(eventId, email);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Registration cancelled successfully",
                     data: null
@@ -338,7 +341,7 @@ export class EventController {
                 if (!eventId)
                     throw Error("Event ID is required");
                 const result = await this.eventService.getRegistrationStats(eventId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Registration statistics retrieved successfully",
                     data: result
@@ -355,7 +358,7 @@ export class EventController {
         this.getEventsStats = async (req, res, next) => {
             try {
                 const result = await this.eventService.getEventsStats();
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Events statistics retrieved successfully",
                     data: result
@@ -367,4 +370,5 @@ export class EventController {
         };
     }
 }
+exports.EventController = EventController;
 //# sourceMappingURL=event.controller.js.map

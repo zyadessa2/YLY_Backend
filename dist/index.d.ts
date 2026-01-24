@@ -1,3 +1,3 @@
-import { app } from './bootstrap.js';
+import { app } from './bootstrap';
 export default app;
 //# sourceMappingURL=index.d.ts.map

@@ -1,8 +1,11 @@
-import { EventModel } from '../models/event.model.js';
-import { DBRepo } from './DBRepo.js';
-export class EventRepo extends DBRepo {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventRepo = void 0;
+const event_model_js_1 = require("../models/event.model.js");
+const DBRepo_js_1 = require("./DBRepo.js");
+class EventRepo extends DBRepo_js_1.DBRepo {
     constructor() {
-        super(EventModel);
+        super(event_model_js_1.EventModel);
     }
     /**
      * Find event by slug
@@ -78,4 +81,5 @@ export class EventRepo extends DBRepo {
         });
     }
 }
+exports.EventRepo = EventRepo;
 //# sourceMappingURL=Event.Repo.js.map

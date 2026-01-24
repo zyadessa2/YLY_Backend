@@ -1,7 +1,13 @@
-import { model, models, Schema } from 'mongoose';
-import { RoleEnum } from '../../modules/userModule/user.types.js';
-import bcrypt from 'bcrypt';
-const userSchema = new Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserModel = void 0;
+const mongoose_1 = require("mongoose");
+const user_types_js_1 = require("../../modules/userModule/user.types.js");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const userSchema = new mongoose_1.Schema({
     email: {
         type: String,
         required: [true, 'Email is required'],
@@ -17,9 +23,9 @@ const userSchema = new Schema({
         minlength: [8, 'Password must be at least 8 characters long'],
         select: false, // Don't return password by default
     },
-    role: { type: String, enum: RoleEnum, default: RoleEnum.user },
+    role: { type: String, enum: user_types_js_1.RoleEnum, default: user_types_js_1.RoleEnum.user },
     governorateId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Governorate',
         default: null,
         validate: {
@@ -73,7 +79,7 @@ userSchema.pre('save', async function (next) {
     }
     try {
         const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || '10');
-        this.password = await bcrypt.hash(this.password, saltRounds);
+        this.password = await bcrypt_1.default.hash(this.password, saltRounds);
         next();
     }
     catch (error) {
@@ -83,11 +89,11 @@ userSchema.pre('save', async function (next) {
 // Method to compare passwords
 userSchema.methods.comparePassword = async function (candidatePassword) {
     try {
-        return await bcrypt.compare(candidatePassword, this.password);
+        return await bcrypt_1.default.compare(candidatePassword, this.password);
     }
     catch (error) {
         return false;
     }
 };
-export const UserModel = models.User || model('User', userSchema);
+exports.UserModel = mongoose_1.models.User || (0, mongoose_1.model)('User', userSchema);
 //# sourceMappingURL=user.model.js.map

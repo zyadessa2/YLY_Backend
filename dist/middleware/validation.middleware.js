@@ -1,6 +1,12 @@
-import z from 'zod';
-import { BadRequestException } from '../utils/response/error.response.js';
-export const validation = (schema) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generalFeilds = exports.validation = void 0;
+const zod_1 = __importDefault(require("zod"));
+const error_response_js_1 = require("../utils/response/error.response.js");
+const validation = (schema) => {
     return (req, res, next) => {
         console.log(schema);
         console.log(Object.keys(schema));
@@ -20,20 +26,21 @@ export const validation = (schema) => {
             }
         }
         if (validationErrors.length) {
-            throw new BadRequestException('Validation Error', {
+            throw new error_response_js_1.BadRequestException('Validation Error', {
                 validationErrors
             });
         }
         return next();
     };
 };
-export default validation;
+exports.validation = validation;
+exports.default = exports.validation;
 // general fields to be used in different schemas 
-export const generalFeilds = {
-    name: z.string().min(2).max(100),
-    email: z.email(),
-    password: z.string(),
-    confirmPassword: z.string(),
-    otp: z.string().length(6),
+exports.generalFeilds = {
+    name: zod_1.default.string().min(2).max(100),
+    email: zod_1.default.email(),
+    password: zod_1.default.string(),
+    confirmPassword: zod_1.default.string(),
+    otp: zod_1.default.string().length(6),
 };
 //# sourceMappingURL=validation.middleware.js.map

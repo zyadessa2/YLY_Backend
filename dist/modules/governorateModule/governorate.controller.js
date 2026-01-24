@@ -1,8 +1,11 @@
-import { GovernorateService } from './governorate.service.js';
-import { successResponse } from '../../utils/response/success.response.js';
-export class GovernorateController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GovernorateController = void 0;
+const governorate_service_js_1 = require("./governorate.service.js");
+const success_response_js_1 = require("../../utils/response/success.response.js");
+class GovernorateController {
     constructor() {
-        this.governorateService = new GovernorateService();
+        this.governorateService = new governorate_service_js_1.GovernorateService();
         /**
          * Create Governorate (Admin only)
          * POST /api/governorates
@@ -11,7 +14,7 @@ export class GovernorateController {
             try {
                 const governorateData = req.body;
                 const result = await this.governorateService.createGovernorate(governorateData);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate created successfully",
                     data: result,
@@ -30,7 +33,7 @@ export class GovernorateController {
             try {
                 const query = req.query;
                 const result = await this.governorateService.getAllGovernorates(query);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorates retrieved successfully",
                     data: result
@@ -47,7 +50,7 @@ export class GovernorateController {
         this.getAllGovernoratesNoPagination = async (req, res, next) => {
             try {
                 const result = await this.governorateService.getAllGovernoratesNoPagination();
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorates retrieved successfully",
                     data: result
@@ -67,7 +70,7 @@ export class GovernorateController {
                 if (!governorateId)
                     throw Error("Governorate ID is required");
                 const result = await this.governorateService.getGovernorateById(governorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate retrieved successfully",
                     data: result
@@ -87,7 +90,7 @@ export class GovernorateController {
                 if (!slug)
                     throw Error("Slug is required");
                 const result = await this.governorateService.getGovernorateBySlug(slug);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate retrieved successfully",
                     data: result
@@ -107,7 +110,7 @@ export class GovernorateController {
                 if (!governorateId)
                     throw Error("Governorate ID is required");
                 const result = await this.governorateService.getGovernorateDetails(governorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate details retrieved successfully",
                     data: result
@@ -128,7 +131,7 @@ export class GovernorateController {
                 if (!governorateId)
                     throw Error("Governorate ID is required");
                 const result = await this.governorateService.updateGovernorate(governorateId, updateData);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate updated successfully",
                     data: result
@@ -148,7 +151,7 @@ export class GovernorateController {
                 if (!governorateId)
                     throw Error("Governorate ID is required");
                 await this.governorateService.deleteGovernorate(governorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate deleted successfully",
                     data: null
@@ -165,7 +168,7 @@ export class GovernorateController {
         this.getGovernoratesWithStats = async (req, res, next) => {
             try {
                 const result = await this.governorateService.getGovernoratesWithStats();
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorates statistics retrieved successfully",
                     data: result
@@ -189,7 +192,7 @@ export class GovernorateController {
                 const published = req.query.published === 'true' ? true :
                     req.query.published === 'false' ? false : undefined;
                 const result = await this.governorateService.getGovernorateNews(governorateId, page, limit, published);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate news retrieved successfully",
                     data: result
@@ -214,7 +217,7 @@ export class GovernorateController {
                     req.query.published === 'false' ? false : undefined;
                 const upcoming = req.query.upcoming === 'true';
                 const result = await this.governorateService.getGovernorateEvents(governorateId, page, limit, published, upcoming);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate events retrieved successfully",
                     data: result
@@ -234,7 +237,7 @@ export class GovernorateController {
                 if (!governorateId)
                     throw Error("Governorate ID is required");
                 const result = await this.governorateService.getGovernorateStats(governorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate statistics retrieved successfully",
                     data: result
@@ -246,4 +249,5 @@ export class GovernorateController {
         };
     }
 }
+exports.GovernorateController = GovernorateController;
 //# sourceMappingURL=governorate.controller.js.map

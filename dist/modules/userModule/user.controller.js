@@ -1,8 +1,11 @@
-import { UserService } from './user.services.js';
-import { successResponse } from '../../utils/response/success.response.js';
-export class UserController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserController = void 0;
+const user_services_js_1 = require("./user.services.js");
+const success_response_js_1 = require("../../utils/response/success.response.js");
+class UserController {
     constructor() {
-        this.userService = new UserService();
+        this.userService = new user_services_js_1.UserService();
         /**
          * Create new user (Admin only)
          * POST /api/users
@@ -15,7 +18,7 @@ export class UserController {
                     throw new Error("Admin ID is required");
                 }
                 const result = await this.userService.createUser(userData, adminId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "User created successfully",
                     data: result,
@@ -52,7 +55,7 @@ export class UserController {
                     ];
                 }
                 const result = await this.userService.getAllUsers(filter, page, limit);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Users retrieved successfully",
                     data: result
@@ -73,7 +76,7 @@ export class UserController {
                     throw new Error("User ID is required");
                 }
                 const result = await this.userService.getUserById(userId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "User retrieved successfully",
                     data: result
@@ -95,7 +98,7 @@ export class UserController {
                     throw new Error("User ID is required");
                 }
                 const result = await this.userService.updateUser(userId, updateData);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "User updated successfully",
                     data: result
@@ -121,7 +124,7 @@ export class UserController {
                 }
                 // Prevent admin from deleting themselves
                 if (userId === adminId) {
-                    successResponse({
+                    (0, success_response_js_1.successResponse)({
                         res,
                         message: "Cannot delete your own account",
                         data: null,
@@ -130,7 +133,7 @@ export class UserController {
                     return;
                 }
                 await this.userService.deleteUser(userId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "User deleted successfully",
                     data: null
@@ -156,7 +159,7 @@ export class UserController {
                 }
                 // Prevent admin from deactivating themselves
                 if (userId === adminId) {
-                    successResponse({
+                    (0, success_response_js_1.successResponse)({
                         res,
                         message: "Cannot deactivate your own account",
                         data: null,
@@ -165,7 +168,7 @@ export class UserController {
                     return;
                 }
                 const result = await this.userService.toggleUserStatus(userId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: `User ${result.isActive ? 'activated' : 'deactivated'} successfully`,
                     data: result
@@ -182,7 +185,7 @@ export class UserController {
         this.getUserStats = async (req, res, next) => {
             try {
                 const result = await this.userService.getUserStats();
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "User statistics retrieved successfully",
                     data: result
@@ -203,7 +206,7 @@ export class UserController {
                     throw new Error("Governorate ID is required");
                 }
                 const result = await this.userService.getUsersByGovernorate(governorateId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Governorate users retrieved successfully",
                     data: result
@@ -228,7 +231,7 @@ export class UserController {
                     throw new Error("New password is required");
                 }
                 await this.userService.resetUserPassword(userId, newPassword);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "User password reset successfully",
                     data: null
@@ -249,7 +252,7 @@ export class UserController {
                     throw new Error("User ID is required");
                 }
                 const result = await this.userService.restoreUser(userId);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "User restored successfully",
                     data: result
@@ -261,4 +264,5 @@ export class UserController {
         };
     }
 }
+exports.UserController = UserController;
 //# sourceMappingURL=user.controller.js.map

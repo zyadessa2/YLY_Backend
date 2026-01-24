@@ -1,9 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DBRepo = void 0;
 /**
  * Generic Database Repository
  * Abstract class to be extended by specific model repositories
  * Provides common CRUD operations and query methods
  */
-export class DBRepo {
+class DBRepo {
     constructor(model) {
         this.model = model;
     }
@@ -239,4 +242,5 @@ export class DBRepo {
         return this.model;
     }
 }
+exports.DBRepo = DBRepo;
 //# sourceMappingURL=DBRepo.js.map

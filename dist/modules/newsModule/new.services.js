@@ -1,10 +1,13 @@
-import { BadRequestException, NotFoundException, ForbidenException } from '../../utils/response/error.response.js';
-import { AnalyticsModel } from '../../DB/models/analytics.model.js';
-import { GovernorateModel } from '../../DB/models/governorate.model.js';
-import { NewsRepo } from '../../DB/repos/News.Repo.js';
-export class NewsService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NewsService = void 0;
+const error_response_js_1 = require("../../utils/response/error.response.js");
+const analytics_model_js_1 = require("../../DB/models/analytics.model.js");
+const governorate_model_js_1 = require("../../DB/models/governorate.model.js");
+const News_Repo_js_1 = require("../../DB/repos/News.Repo.js");
+class NewsService {
     constructor() {
-        this.newsRepo = new NewsRepo();
+        this.newsRepo = new News_Repo_js_1.NewsRepo();
         /**
          * Create News
          */
@@ -12,14 +15,14 @@ export class NewsService {
             // If user is governorate_user, force their governorateId
             if (userRole === 'governorate_user') {
                 if (!userGovernorateId) {
-                    throw new ForbidenException("Governorate user must have a governorate assigned");
+                    throw new error_response_js_1.ForbidenException("Governorate user must have a governorate assigned");
                 }
                 newsData.governorateId = userGovernorateId;
             }
             // Validate governorate exists
-            const governorate = await GovernorateModel.findById(newsData.governorateId);
+            const governorate = await governorate_model_js_1.GovernorateModel.findById(newsData.governorateId);
             if (!governorate) {
-                throw new NotFoundException("Governorate not found");
+                throw new error_response_js_1.NotFoundException("Governorate not found");
             }
             // Create news
             const newNews = await this.newsRepo.create({
@@ -31,7 +34,7 @@ export class NewsService {
             // Handle create return (can be single or array)
             const createdNews = Array.isArray(newNews) ? newNews[0] : newNews;
             if (!createdNews) {
-                throw new BadRequestException("Failed to create news");
+                throw new error_response_js_1.BadRequestException("Failed to create news");
             }
             // Populate and return
             const populatedNews = await this.newsRepo.findById({
@@ -105,7 +108,7 @@ export class NewsService {
                 ]
             });
             if (!news) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             return news;
         };
@@ -115,11 +118,11 @@ export class NewsService {
         this.getNewsBySlug = async (slug) => {
             const news = await this.newsRepo.findBySlug(slug);
             if (!news) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             // Only return if published (for public access)
             if (!news.published) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             return news;
         };
@@ -129,29 +132,29 @@ export class NewsService {
         this.updateNews = async (newsId, updateData, userId, userRole, userGovernorateId) => {
             const news = await this.newsRepo.findById({ id: newsId });
             if (!news) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             // Check permissions
             if (userRole === 'governorate_user') {
                 // User can only update news from their governorate
                 if (news.governorateId.toString() !== userGovernorateId) {
-                    throw new ForbidenException("You can only update news from your governorate");
+                    throw new error_response_js_1.ForbidenException("You can only update news from your governorate");
                 }
                 // User can only update news they created
                 if (news.createdBy.toString() !== userId) {
-                    throw new ForbidenException("You can only update news you created");
+                    throw new error_response_js_1.ForbidenException("You can only update news you created");
                 }
             }
             // If changing governorate, validate
             if (updateData.governorateId && updateData.governorateId !== news.governorateId.toString()) {
-                const governorate = await GovernorateModel.findById(updateData.governorateId);
+                const governorate = await governorate_model_js_1.GovernorateModel.findById(updateData.governorateId);
                 if (!governorate) {
-                    throw new NotFoundException("Governorate not found");
+                    throw new error_response_js_1.NotFoundException("Governorate not found");
                 }
             }
             // Validate published/publishedAt relation
             if (updateData.published && !updateData.publishedAt && !news.publishedAt) {
-                throw new BadRequestException("Published date is required when publishing news");
+                throw new error_response_js_1.BadRequestException("Published date is required when publishing news");
             }
             // Update news
             const updatePayload = {
@@ -171,17 +174,17 @@ export class NewsService {
         this.deleteNews = async (newsId, userId, userRole, userGovernorateId) => {
             const news = await this.newsRepo.findById({ id: newsId });
             if (!news) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             // Check permissions
             if (userRole === 'governorate_user') {
                 // User can only delete news from their governorate
                 if (news.governorateId.toString() !== userGovernorateId) {
-                    throw new ForbidenException("You can only delete news from your governorate");
+                    throw new error_response_js_1.ForbidenException("You can only delete news from your governorate");
                 }
                 // User can only delete news they created
                 if (news.createdBy.toString() !== userId) {
-                    throw new ForbidenException("You can only delete news you created");
+                    throw new error_response_js_1.ForbidenException("You can only delete news you created");
                 }
             }
             // Soft delete
@@ -193,12 +196,12 @@ export class NewsService {
         this.incrementViewCount = async (newsId) => {
             const news = await this.newsRepo.findById({ id: newsId });
             if (!news) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             // Increment view count
             await this.newsRepo.incrementViewCount(newsId);
             // Track in analytics
-            await AnalyticsModel.incrementNewsView(news.governorateId.toString());
+            await analytics_model_js_1.AnalyticsModel.incrementNewsView(news.governorateId.toString());
         };
         /**
          * Get Featured News
@@ -212,7 +215,7 @@ export class NewsService {
         this.getRelatedNews = async (newsId, limit = 5) => {
             const news = await this.newsRepo.findById({ id: newsId });
             if (!news) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             return await this.newsRepo.getRelatedNews(newsId, news.tags || [], limit);
         };
@@ -255,7 +258,7 @@ export class NewsService {
         this.toggleFeatured = async (newsId, userId) => {
             const news = await this.newsRepo.findById({ id: newsId });
             if (!news) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             await this.newsRepo.updateOne({
                 filter: { _id: newsId },
@@ -272,7 +275,7 @@ export class NewsService {
         this.togglePublished = async (newsId, userId) => {
             const news = await this.newsRepo.findById({ id: newsId });
             if (!news) {
-                throw new NotFoundException("News not found");
+                throw new error_response_js_1.NotFoundException("News not found");
             }
             // If publishing and no publishedAt, set it to now
             const updateData = {
@@ -290,4 +293,5 @@ export class NewsService {
         };
     }
 }
+exports.NewsService = NewsService;
 //# sourceMappingURL=new.services.js.map

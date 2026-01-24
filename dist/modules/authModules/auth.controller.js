@@ -1,12 +1,15 @@
-import { AuthService } from './auth.services.js';
-import { successResponse } from '../../utils/response/success.response.js';
-export class AuthController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthController = void 0;
+const auth_services_js_1 = require("./auth.services.js");
+const success_response_js_1 = require("../../utils/response/success.response.js");
+class AuthController {
     constructor() {
-        this.authService = new AuthService();
+        this.authService = new auth_services_js_1.AuthService();
         this.login = async (req, res, next) => {
             try {
                 const result = await this.authService.login(req.body);
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Login successful",
                     data: result
@@ -29,7 +32,7 @@ export class AuthController {
                     throw new Error('Token is required after Bearer prefix');
                 }
                 const result = await this.authService.refreshToken({ authorization: token });
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Token refreshed successfully",
                     data: result
@@ -42,7 +45,7 @@ export class AuthController {
         this.logout = async (req, res, next) => {
             try {
                 await this.authService.logout(req.body.user._id.toString());
-                successResponse({
+                (0, success_response_js_1.successResponse)({
                     res,
                     message: "Logged out successfully",
                     data: null
@@ -54,4 +57,5 @@ export class AuthController {
         };
     }
 }
+exports.AuthController = AuthController;
 //# sourceMappingURL=auth.controller.js.map

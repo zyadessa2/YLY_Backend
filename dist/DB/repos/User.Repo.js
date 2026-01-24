@@ -1,8 +1,11 @@
-import { DBRepo } from './DBRepo.js';
-import { UserModel } from '../models/user.model.js';
-export class UserRepo extends DBRepo {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRepo = void 0;
+const DBRepo_js_1 = require("./DBRepo.js");
+const user_model_js_1 = require("../models/user.model.js");
+class UserRepo extends DBRepo_js_1.DBRepo {
     // we make it override to provide default model and still let passing different model if needed
-    constructor(model = UserModel) {
+    constructor(model = user_model_js_1.UserModel) {
         super(model);
         this.model = model;
     }
@@ -16,4 +19,5 @@ export class UserRepo extends DBRepo {
         return user;
     }
 }
+exports.UserRepo = UserRepo;
 //# sourceMappingURL=User.Repo.js.map

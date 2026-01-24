@@ -1,8 +1,11 @@
-import { EventRegistrationModel } from '../models/eventRegistration.model.js';
-import { DBRepo } from './DBRepo.js';
-export class EventRegistrationRepo extends DBRepo {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventRegistrationRepo = void 0;
+const eventRegistration_model_js_1 = require("../models/eventRegistration.model.js");
+const DBRepo_js_1 = require("./DBRepo.js");
+class EventRegistrationRepo extends DBRepo_js_1.DBRepo {
     constructor() {
-        super(EventRegistrationModel);
+        super(eventRegistration_model_js_1.EventRegistrationModel);
     }
     /**
      * Check if user already registered
@@ -39,4 +42,5 @@ export class EventRegistrationRepo extends DBRepo {
         ]);
     }
 }
+exports.EventRegistrationRepo = EventRegistrationRepo;
 //# sourceMappingURL=EventRegistration.Repo.js.map
