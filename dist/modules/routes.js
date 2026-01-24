@@ -16,7 +16,7 @@ router.use('/user', user_routes_js_1.default);
 router.use('/news', news_routes_js_1.default);
 router.use('/events', event_routes_js_1.default);
 router.use('/governorates', governorate_routes_js_1.default);
-router.all('*', (req, res) => {
+router.all('/*', (req, res) => {
     res.status(404).json({ message: "API route not found" });
 });
 exports.default = router;
