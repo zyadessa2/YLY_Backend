@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import { NewsService } from "./new.services";
-import { successResponse } from "../../utils/response/success.response";
-import { createNewsDTO, updateNewsDTO, getNewsQueryDTO } from "./news.DTO";
+import { Request, Response, NextFunction } from 'express';
+import { NewsService } from './new.services.js';
+import { successResponse } from '../../utils/response/success.response.js';
+import { createNewsDTO, updateNewsDTO, getNewsQueryDTO } from './news.DTO.js';
 
 export class NewsController {
     private newsService = new NewsService();

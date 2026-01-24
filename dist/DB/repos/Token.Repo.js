@@ -1,4 +1,4 @@
-import { DBRepo } from "./DBRepo";
+import { DBRepo } from './DBRepo.js';
 export class TokenRepo extends DBRepo {
     constructor(model) {
         super(model);

@@ -1,7 +1,7 @@
-import { CreateOptions, HydratedDocument, Model, ProjectionType, QueryOptions } from "mongoose";
-import { IUser as T } from "../models/user.model";
-import { DBRepo } from "./DBRepo";
-import { UserModel } from "../models/user.model";
+import { CreateOptions, HydratedDocument, Model, ProjectionType, QueryOptions } from 'mongoose';
+import { IUser as T } from '../models/user.model.js';
+import { DBRepo } from './DBRepo.js';
+import { UserModel } from '../models/user.model.js';
 
 
 export class UserRepo extends DBRepo<T> {

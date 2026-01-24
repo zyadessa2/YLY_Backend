@@ -1,5 +1,5 @@
-import z from "zod";
-import { BadRequestException } from "../utils/response/error.response";
+import z from 'zod';
+import { BadRequestException } from '../utils/response/error.response.js';
 export const validation = (schema) => {
     return (req, res, next) => {
         console.log(schema);

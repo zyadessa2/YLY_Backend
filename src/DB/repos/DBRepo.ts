@@ -16,7 +16,7 @@ import {
     ClientSession,
     SortOrder,
     FilterQuery
-} from "mongoose";
+} from 'mongoose';
 
 export type Lean<T> = HydratedDocument<FlattenMaps<T>>;
 

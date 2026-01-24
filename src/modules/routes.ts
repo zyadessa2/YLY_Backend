@@ -1,9 +1,9 @@
-import { Router } from "express";
-import authRouter from "./authModules/auth.routes";
-import userRouter from "./userModule/user.routes";
-import newsRouter from "./newsModule/news.routes";
-import eventRouter from "./eventModules/event.routes";
-import governorateRouter from "./governorateModule/governorate.routes";
+import { Router } from 'express';
+import authRouter from './authModules/auth.routes.js';
+import userRouter from './userModule/user.routes.js';
+import newsRouter from './newsModule/news.routes.js';
+import eventRouter from './eventModules/event.routes.js';
+import governorateRouter from './governorateModule/governorate.routes.js';
 
 
 const router = Router();

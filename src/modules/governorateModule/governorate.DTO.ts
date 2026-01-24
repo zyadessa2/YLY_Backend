@@ -1,5 +1,5 @@
-import {z} from "zod";
-import { createGovernorateSchema, getGovernoratesQuerySchema, governorateIdParamSchema, governorateSlugParamSchema, updateGovernorateSchema } from "./governorate.validation";
+import {z} from 'zod';
+import { createGovernorateSchema, getGovernoratesQuerySchema, governorateIdParamSchema, governorateSlugParamSchema, updateGovernorateSchema } from './governorate.validation.js';
 
 export type createGovernorateDTO = z.infer<typeof createGovernorateSchema>;
 export type updateGovernorateDTO = z.infer<typeof updateGovernorateSchema>;

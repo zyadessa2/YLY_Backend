@@ -1,6 +1,6 @@
-import { DBRepo } from "./DBRepo";
-import { IToken as TDocument } from "../models/token.model";
-import { Model } from "mongoose";
+import { DBRepo } from './DBRepo.js';
+import { IToken as TDocument } from '../models/token.model.js';
+import { Model } from 'mongoose';
 export declare class TokenRepo extends DBRepo<TDocument> {
     protected readonly model: Model<TDocument, {}, {}, {}, TDocument, any, any>;
     constructor(model: Model<TDocument, {}, {}, {}, TDocument, any, any>);

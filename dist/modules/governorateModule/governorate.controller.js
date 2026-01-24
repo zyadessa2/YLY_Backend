@@ -1,5 +1,5 @@
-import { GovernorateService } from "./governorate.service";
-import { successResponse } from "../../utils/response/success.response";
+import { GovernorateService } from './governorate.service.js';
+import { successResponse } from '../../utils/response/success.response.js';
 export class GovernorateController {
     constructor() {
         this.governorateService = new GovernorateService();

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { mongoIdSchema, urlSchema } from '../../middleware/validation.schemas';
+import { mongoIdSchema, urlSchema } from '../../middleware/validation.schemas.js';
 // Create Governorate Schema
 export const createGovernorateSchema = z.object({
     name: z.string()

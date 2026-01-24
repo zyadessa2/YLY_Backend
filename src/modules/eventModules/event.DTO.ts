@@ -1,5 +1,5 @@
-import {z} from "zod";
-import { createEventSchema, eventIdParamSchema, eventRegistrationSchema, getEventsQuerySchema, updateEventSchema, updateRegistrationStatusSchema } from "./event.validation";
+import {z} from 'zod';
+import { createEventSchema, eventIdParamSchema, eventRegistrationSchema, getEventsQuerySchema, updateEventSchema, updateRegistrationStatusSchema } from './event.validation.js';
 
 export type createEventDTO = z.infer<typeof createEventSchema>;
 export type updateEventDTO = z.infer<typeof updateEventSchema>;

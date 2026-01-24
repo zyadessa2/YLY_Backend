@@ -1,5 +1,5 @@
-import { IPaginationResult } from "../../DB/repos/DBRepo";
-import { createGovernorateDTO, updateGovernorateDTO, getGovernoratesQueryDTO } from "./governorate.DTO";
+import { IPaginationResult } from '../../DB/repos/DBRepo.js';
+import { createGovernorateDTO, updateGovernorateDTO, getGovernoratesQueryDTO } from './governorate.DTO.js';
 export declare class GovernorateService {
     private governorateRepo;
     constructor();

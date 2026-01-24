@@ -1,5 +1,5 @@
-import { ILoginResponse, IRefreshResponse } from "./auth.entities";
-import { loginDTO, refreshTokenDTO } from "./auth.DTO";
+import { ILoginResponse, IRefreshResponse } from './auth.entities.js';
+import { loginDTO, refreshTokenDTO } from './auth.DTO.js';
 export declare class AuthService {
     private userRepo;
     constructor();

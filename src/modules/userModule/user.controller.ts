@@ -1,8 +1,8 @@
 // user.controller.ts
-import { Request, Response, NextFunction } from "express";
-import { UserService } from "./user.services";
-import { successResponse } from "../../utils/response/success.response";
-import { createUserDTO, updateUserDTO } from "./user.DTO";
+import { Request, Response, NextFunction } from 'express';
+import { UserService } from './user.services.js';
+import { successResponse } from '../../utils/response/success.response.js';
+import { createUserDTO, updateUserDTO } from './user.DTO.js';
 
 export class UserController {
     private userService = new UserService();

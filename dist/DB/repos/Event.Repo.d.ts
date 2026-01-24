@@ -1,5 +1,5 @@
-import { IEvent } from "../models/event.model";
-import { DBRepo } from "./DBRepo";
+import { IEvent } from '../models/event.model.js';
+import { DBRepo } from './DBRepo.js';
 export declare class EventRepo extends DBRepo<IEvent> {
     constructor();
     /**

@@ -1,5 +1,5 @@
 import z, { email } from 'zod';
-import { generalFeilds } from '../../middleware/validation.middleware';
+import { generalFeilds } from '../../middleware/validation.middleware.js';
 
 
 export const loginSchema = {

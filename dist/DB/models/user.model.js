@@ -1,5 +1,5 @@
-import { model, models, Schema } from "mongoose";
-import { RoleEnum } from "../../modules/userModule/user.types";
+import { model, models, Schema } from 'mongoose';
+import { RoleEnum } from '../../modules/userModule/user.types.js';
 import bcrypt from 'bcrypt';
 const userSchema = new Schema({
     email: {

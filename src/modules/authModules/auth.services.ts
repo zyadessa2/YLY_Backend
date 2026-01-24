@@ -1,21 +1,21 @@
-import type { Response, Request } from "express";
-import { UserModel } from "../../DB/models/user.model";
-import { GovernorateModel } from "../../DB/models/governorate.model";
+import type { Response, Request } from 'express';
+import { UserModel } from '../../DB/models/user.model.js';
+import { GovernorateModel } from '../../DB/models/governorate.model.js';
 import { 
     NotFoundException,
     UnAuthorizedException,
     ForbidenException 
-} from "../../utils/response/error.response";
-import { UserRepo } from "../../DB/repos/User.Repo";
-import { compareHash } from "../../utils/security/hash.security";
+} from '../../utils/response/error.response.js';
+import { UserRepo } from '../../DB/repos/User.Repo.js';
+import { compareHash } from '../../utils/security/hash.security.js';
 import { 
     createLoginCredentials, 
     generateToken, 
     TokenTypeEnum,
     verifyToken
-} from "../../utils/security/token.security";
-import { ILoginResponse, IRefreshResponse } from "./auth.entities";
-import { loginDTO, refreshTokenDTO } from "./auth.DTO";
+} from '../../utils/security/token.security.js';
+import { ILoginResponse, IRefreshResponse } from './auth.entities.js';
+import { loginDTO, refreshTokenDTO } from './auth.DTO.js';
 
 export class AuthService {
     private userRepo = new UserRepo(UserModel);

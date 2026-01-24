@@ -1,4 +1,4 @@
-import { Types, HydratedDocument } from "mongoose";
+import { Types, HydratedDocument } from 'mongoose';
 export interface IToken {
     jti: string;
     expiresIn: number;

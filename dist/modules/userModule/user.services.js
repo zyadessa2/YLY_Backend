@@ -1,8 +1,8 @@
 // user.service.ts
-import { BadRequestException, ConflictException, NotFoundException } from "../../utils/response/error.response";
-import { generateHash } from "../../utils/security/hash.security";
-import { GovernorateModel } from "../../DB/models/governorate.model";
-import { UserRepo } from "../../DB/repos/User.Repo";
+import { BadRequestException, ConflictException, NotFoundException } from '../../utils/response/error.response.js';
+import { generateHash } from '../../utils/security/hash.security.js';
+import { GovernorateModel } from '../../DB/models/governorate.model.js';
+import { UserRepo } from '../../DB/repos/User.Repo.js';
 export class UserService {
     constructor() {
         this.userRepo = new UserRepo();

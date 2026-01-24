@@ -1,7 +1,7 @@
 // auth.controller.ts
-import { Request, Response, NextFunction } from "express";
-import { AuthService } from "./auth.services";
-import { successResponse } from "../../utils/response/success.response";
+import { Request, Response, NextFunction } from 'express';
+import { AuthService } from './auth.services.js';
+import { successResponse } from '../../utils/response/success.response.js';
 
 export class AuthController {
     private authService = new AuthService();

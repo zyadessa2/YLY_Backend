@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { NewsController } from './news.controller';
+import { NewsController } from './news.controller.js';
 import { 
     createNewsSchema, 
     updateNewsSchema, 
     newsIdParamSchema,
     getNewsQuerySchema
-} from './news.validation';
-import validation from '../../middleware/validation.middleware';
-import { authenticate, authorize, optionalAuthenticate } from '../../middleware/auth.middelware';
+} from './news.validation.js';
+import validation from '../../middleware/validation.middleware.js';
+import { authenticate, authorize, optionalAuthenticate } from '../../middleware/auth.middelware.js';
 
 const router = Router();
 const newsController = new NewsController();

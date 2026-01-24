@@ -1,10 +1,10 @@
-import { v4 as uuid } from "uuid";
-import { sign, verify, type JwtPayload, type Secret, type SignOptions } from "jsonwebtoken";
-import { HUserDocument, UserModel } from "../../DB/models/user.model";
-import { BadRequestException, UnAuthorizedException } from "../response/error.response";
-import { UserRepo } from "../../DB/repos/User.Repo";
-import { TokenRepo } from "../../DB/repos/Token.Repo";
-import { HTokenDocument, TokenModel } from "../../DB/models/token.model";
+import { v4 as uuid } from 'uuid';
+import { sign, verify, type JwtPayload, type Secret, type SignOptions } from 'jsonwebtoken';
+import { HUserDocument, UserModel } from '../../DB/models/user.model.js';
+import { BadRequestException, UnAuthorizedException } from '../response/error.response.js';
+import { UserRepo } from '../../DB/repos/User.Repo.js';
+import { TokenRepo } from '../../DB/repos/Token.Repo.js';
+import { HTokenDocument, TokenModel } from '../../DB/models/token.model.js';
 
 export enum TokenTypeEnum {
     Access = "Access",

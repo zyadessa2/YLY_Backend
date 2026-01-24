@@ -1,6 +1,6 @@
-import { type JwtPayload, type Secret, type SignOptions } from "jsonwebtoken";
-import { HUserDocument } from "../../DB/models/user.model";
-import { HTokenDocument } from "../../DB/models/token.model";
+import { type JwtPayload, type Secret, type SignOptions } from 'jsonwebtoken';
+import { HUserDocument } from '../../DB/models/user.model.js';
+import { HTokenDocument } from '../../DB/models/token.model.js';
 export declare enum TokenTypeEnum {
     Access = "Access",
     Refresh = "Refresh"

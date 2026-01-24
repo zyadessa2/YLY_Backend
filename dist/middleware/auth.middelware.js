@@ -1,6 +1,6 @@
-import { BadRequestException, ForbidenException, UnAuthorizedException } from "../utils/response/error.response";
-import { decodeToken, TokenTypeEnum } from "../utils/security/token.security";
-import { UserModel } from "../DB/models/user.model";
+import { BadRequestException, ForbidenException, UnAuthorizedException } from '../utils/response/error.response.js';
+import { decodeToken, TokenTypeEnum } from '../utils/security/token.security.js';
+import { UserModel } from '../DB/models/user.model.js';
 /**
  * Authentication Middleware
  * Verifies JWT token and attaches user to request

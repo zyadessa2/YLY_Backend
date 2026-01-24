@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { EventController } from './event.controller';
+import { EventController } from './event.controller.js';
 import { 
     createEventSchema, 
     updateEventSchema, 
@@ -7,9 +7,9 @@ import {
     getEventsQuerySchema,
     eventRegistrationSchema,
     updateRegistrationStatusSchema
-} from './event.validation';
-import validation from '../../middleware/validation.middleware';
-import { authenticate, authorize, optionalAuthenticate } from '../../middleware/auth.middelware';
+} from './event.validation.js';
+import validation from '../../middleware/validation.middleware.js';
+import { authenticate, authorize, optionalAuthenticate } from '../../middleware/auth.middelware.js';
 
 const router = Router();
 const eventController = new EventController();

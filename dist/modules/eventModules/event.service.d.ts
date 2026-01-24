@@ -1,5 +1,5 @@
-import { IPaginationResult } from "../../DB/repos/DBRepo";
-import { createEventDTO, updateEventDTO, getEventsQueryDTO, eventRegistrationDTO, updateRegistrationStatusDTO } from "./event.DTO";
+import { IPaginationResult } from '../../DB/repos/DBRepo.js';
+import { createEventDTO, updateEventDTO, getEventsQueryDTO, eventRegistrationDTO, updateRegistrationStatusDTO } from './event.DTO.js';
 export declare class EventService {
     private eventRepo;
     private registrationRepo;

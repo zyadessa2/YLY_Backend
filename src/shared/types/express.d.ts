@@ -1,4 +1,4 @@
-import { IUser } from '../DB/models/user.model';
+import { IUser } from '../DB/models/user.model.js';
 import { JwtPayload } from 'jsonwebtoken';
 
 declare global {

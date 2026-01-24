@@ -1,4 +1,4 @@
-import { CreateOptions, DeleteResult, FlattenMaps, HydratedDocument, Model, MongooseUpdateQueryOptions, PopulateOptions, ProjectionType, QueryOptions, RootFilterQuery, Types, UpdateQuery, UpdateWriteOpResult, ClientSession, SortOrder } from "mongoose";
+import { CreateOptions, DeleteResult, FlattenMaps, HydratedDocument, Model, MongooseUpdateQueryOptions, PopulateOptions, ProjectionType, QueryOptions, RootFilterQuery, Types, UpdateQuery, UpdateWriteOpResult, ClientSession, SortOrder } from 'mongoose';
 export type Lean<T> = HydratedDocument<FlattenMaps<T>>;
 export interface IPaginationOptions {
     page?: number;

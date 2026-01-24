@@ -1,4 +1,4 @@
-import { compare, genSalt, hash } from "bcrypt";
+import { compare, genSalt, hash } from 'bcrypt';
 export const generateHash = async (plainText, saltRound = Number(process.env.SALT)) => {
     const salt = await genSalt(saltRound);
     return await hash(plainText, salt);

@@ -1,5 +1,5 @@
-import { EventService } from "./event.service";
-import { successResponse } from "../../utils/response/success.response";
+import { EventService } from './event.service.js';
+import { successResponse } from '../../utils/response/success.response.js';
 export class EventController {
     constructor() {
         this.eventService = new EventService();

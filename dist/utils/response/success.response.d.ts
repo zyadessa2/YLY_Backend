@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Response } from 'express';
 export declare const successResponse: <T = any>({ res, message, statusCode, data }: {
     res: Response;
     message?: string;

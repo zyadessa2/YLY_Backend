@@ -1,5 +1,5 @@
-import { GovernorateModel } from "../models/governorate.model";
-import { DBRepo } from "./DBRepo";
+import { GovernorateModel } from '../models/governorate.model.js';
+import { DBRepo } from './DBRepo.js';
 export class GovernorateRepo extends DBRepo {
     constructor() {
         super(GovernorateModel);

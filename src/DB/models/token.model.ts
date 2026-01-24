@@ -1,5 +1,5 @@
-import { model } from "mongoose";
-import { Types , Schema, models, HydratedDocument } from "mongoose";
+import { model } from 'mongoose';
+import { Types , Schema, models, HydratedDocument } from 'mongoose';
 
 
 export interface IToken {

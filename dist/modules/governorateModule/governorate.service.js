@@ -1,8 +1,8 @@
-import { EventModel } from "../../DB/models/event.model";
-import { NewsModel } from "../../DB/models/news.model";
-import { UserModel } from "../../DB/models/user.model";
-import { GovernorateRepo } from "../../DB/repos/Governorate.Repo";
-import { BadRequestException, NotFoundException, ConflictException } from "../../utils/response/error.response";
+import { EventModel } from '../../DB/models/event.model.js';
+import { NewsModel } from '../../DB/models/news.model.js';
+import { UserModel } from '../../DB/models/user.model.js';
+import { GovernorateRepo } from '../../DB/repos/Governorate.Repo.js';
+import { BadRequestException, NotFoundException, ConflictException } from '../../utils/response/error.response.js';
 export class GovernorateService {
     constructor() {
         this.governorateRepo = new GovernorateRepo();

@@ -1,5 +1,5 @@
-import mongoose, { HydratedDocument } from "mongoose";
-import { RoleEnum } from "../../modules/userModule/user.types";
+import mongoose, { HydratedDocument } from 'mongoose';
+import { RoleEnum } from '../../modules/userModule/user.types.js';
 export interface IUser {
     _id: mongoose.Types.ObjectId;
     email: string;

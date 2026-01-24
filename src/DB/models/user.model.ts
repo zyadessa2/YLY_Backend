@@ -1,5 +1,5 @@
-import mongoose, { HydratedDocument, model, models, Schema, Types } from "mongoose";
-import { RoleEnum } from "../../modules/userModule/user.types";
+import mongoose, { HydratedDocument, model, models, Schema, Types } from 'mongoose';
+import { RoleEnum } from '../../modules/userModule/user.types.js';
 import bcrypt from 'bcrypt';
 
 export interface IUser {

@@ -1,5 +1,5 @@
-import { model } from "mongoose";
-import { Schema, models } from "mongoose";
+import { model } from 'mongoose';
+import { Schema, models } from 'mongoose';
 const tokenSchema = new Schema({
     jti: { type: String, required: true, unique: true },
     expiresIn: { type: Number, required: true },

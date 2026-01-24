@@ -1,7 +1,7 @@
-import { BadRequestException, NotFoundException, ForbidenException } from "../../utils/response/error.response";
-import { AnalyticsModel } from "../../DB/models/analytics.model";
-import { GovernorateModel } from "../../DB/models/governorate.model";
-import { NewsRepo } from "../../DB/repos/News.Repo";
+import { BadRequestException, NotFoundException, ForbidenException } from '../../utils/response/error.response.js';
+import { AnalyticsModel } from '../../DB/models/analytics.model.js';
+import { GovernorateModel } from '../../DB/models/governorate.model.js';
+import { NewsRepo } from '../../DB/repos/News.Repo.js';
 export class NewsService {
     constructor() {
         this.newsRepo = new NewsRepo();

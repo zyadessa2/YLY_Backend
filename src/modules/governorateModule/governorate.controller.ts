@@ -1,11 +1,11 @@
-import { Request, Response, NextFunction } from "express";
-import { GovernorateService } from "./governorate.service";
-import { successResponse } from "../../utils/response/success.response";
+import { Request, Response, NextFunction } from 'express';
+import { GovernorateService } from './governorate.service.js';
+import { successResponse } from '../../utils/response/success.response.js';
 import { 
     createGovernorateDTO, 
     updateGovernorateDTO, 
     getGovernoratesQueryDTO 
-} from "./governorate.DTO";
+} from './governorate.DTO.js';
 
 export class GovernorateController {
     private governorateService = new GovernorateService();

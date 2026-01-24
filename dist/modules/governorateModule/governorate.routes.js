@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { GovernorateController } from './governorate.controller';
-import { createGovernorateSchema, updateGovernorateSchema, governorateIdParamSchema, governorateSlugParamSchema, getGovernoratesQuerySchema } from './governorate.validation';
-import validation from '../../middleware/validation.middleware';
-import { authenticate, authorize } from '../../middleware/auth.middelware';
+import { GovernorateController } from './governorate.controller.js';
+import { createGovernorateSchema, updateGovernorateSchema, governorateIdParamSchema, governorateSlugParamSchema, getGovernoratesQuerySchema } from './governorate.validation.js';
+import validation from '../../middleware/validation.middleware.js';
+import { authenticate, authorize } from '../../middleware/auth.middelware.js';
 const router = Router();
 const governorateController = new GovernorateController();
 // Public routes

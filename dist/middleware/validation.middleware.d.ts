@@ -1,5 +1,5 @@
-import z, { ZodType } from "zod";
-import { Request, Response, NextFunction } from "express";
+import z, { ZodType } from 'zod';
+import { Request, Response, NextFunction } from 'express';
 type KeyReqType = keyof Request;
 type schemaType = Partial<Record<KeyReqType, ZodType>>;
 export declare const validation: (schema: schemaType) => (req: Request, res: Response, next: NextFunction) => NextFunction;

@@ -1,13 +1,13 @@
-import { Request, Response, NextFunction } from "express";
-import { EventService } from "./event.service";
-import { successResponse } from "../../utils/response/success.response";
+import { Request, Response, NextFunction } from 'express';
+import { EventService } from './event.service.js';
+import { successResponse } from '../../utils/response/success.response.js';
 import { 
     createEventDTO, 
     updateEventDTO, 
     getEventsQueryDTO,
     eventRegistrationDTO,
     updateRegistrationStatusDTO
-} from "./event.DTO";
+} from './event.DTO.js';
 
 export class EventController {
     private eventService = new EventService();

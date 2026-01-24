@@ -1,10 +1,10 @@
-import { v4 as uuid } from "uuid";
-import { sign, verify } from "jsonwebtoken";
-import { UserModel } from "../../DB/models/user.model";
-import { BadRequestException, UnAuthorizedException } from "../response/error.response";
-import { UserRepo } from "../../DB/repos/User.Repo";
-import { TokenRepo } from "../../DB/repos/Token.Repo";
-import { TokenModel } from "../../DB/models/token.model";
+import { v4 as uuid } from 'uuid';
+import { sign, verify } from 'jsonwebtoken';
+import { UserModel } from '../../DB/models/user.model.js';
+import { BadRequestException, UnAuthorizedException } from '../response/error.response.js';
+import { UserRepo } from '../../DB/repos/User.Repo.js';
+import { TokenRepo } from '../../DB/repos/Token.Repo.js';
+import { TokenModel } from '../../DB/models/token.model.js';
 export var TokenTypeEnum;
 (function (TokenTypeEnum) {
     TokenTypeEnum["Access"] = "Access";

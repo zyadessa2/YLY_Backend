@@ -1,5 +1,5 @@
-import { createNewsDTO, updateNewsDTO, getNewsQueryDTO } from "./news.DTO";
-import { IPaginationResult } from "../../DB/repos/DBRepo";
+import { createNewsDTO, updateNewsDTO, getNewsQueryDTO } from './news.DTO.js';
+import { IPaginationResult } from '../../DB/repos/DBRepo.js';
 export declare class NewsService {
     private newsRepo;
     constructor();

@@ -1,5 +1,5 @@
 import z from 'zod';
-import { generalFeilds } from '../../middleware/validation.middleware';
+import { generalFeilds } from '../../middleware/validation.middleware.js';
 export const loginSchema = {
     body: z.strictObject({
         email: generalFeilds.email,

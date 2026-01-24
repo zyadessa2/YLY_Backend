@@ -1,7 +1,7 @@
-import z, { ZodError, ZodObject, ZodType } from "zod";
+import z, { ZodError, ZodObject, ZodType } from 'zod';
 
-import { Request, Response, NextFunction } from "express";
-import { BadRequestException } from "../utils/response/error.response";
+import { Request, Response, NextFunction } from 'express';
+import { BadRequestException } from '../utils/response/error.response.js';
 
 type KeyReqType = keyof Request;
 type schemaType = Partial<Record<KeyReqType, ZodType>>

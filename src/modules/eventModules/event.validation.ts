@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { generalFields, mongoIdSchema } from '../../middleware/validation.schemas';
+import { generalFields, mongoIdSchema } from '../../middleware/validation.schemas.js';
 
 // Create Event Schema
 export const createEventSchema = z.object({

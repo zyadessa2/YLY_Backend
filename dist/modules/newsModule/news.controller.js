@@ -1,5 +1,5 @@
-import { NewsService } from "./new.services";
-import { successResponse } from "../../utils/response/success.response";
+import { NewsService } from './new.services.js';
+import { successResponse } from '../../utils/response/success.response.js';
 export class NewsController {
     constructor() {
         this.newsService = new NewsService();

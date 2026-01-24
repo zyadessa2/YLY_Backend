@@ -1,18 +1,18 @@
-import { EventModel } from "../../DB/models/event.model";
-import { NewsModel } from "../../DB/models/news.model";
-import { UserModel } from "../../DB/models/user.model";
-import { IPaginationResult } from "../../DB/repos/DBRepo";
-import { GovernorateRepo } from "../../DB/repos/Governorate.Repo";
+import { EventModel } from '../../DB/models/event.model.js';
+import { NewsModel } from '../../DB/models/news.model.js';
+import { UserModel } from '../../DB/models/user.model.js';
+import { IPaginationResult } from '../../DB/repos/DBRepo.js';
+import { GovernorateRepo } from '../../DB/repos/Governorate.Repo.js';
 import { 
     BadRequestException,
     NotFoundException,
     ConflictException
-} from "../../utils/response/error.response";
+} from '../../utils/response/error.response.js';
 import { 
     createGovernorateDTO, 
     updateGovernorateDTO, 
     getGovernoratesQueryDTO 
-} from "./governorate.DTO";
+} from './governorate.DTO.js';
 
 export class GovernorateService {
     private governorateRepo = new GovernorateRepo();

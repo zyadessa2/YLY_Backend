@@ -1,5 +1,5 @@
-import { UserService } from "./user.services";
-import { successResponse } from "../../utils/response/success.response";
+import { UserService } from './user.services.js';
+import { successResponse } from '../../utils/response/success.response.js';
 export class UserController {
     constructor() {
         this.userService = new UserService();

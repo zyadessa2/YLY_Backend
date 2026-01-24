@@ -1,6 +1,6 @@
-import { NextFunction, Response, Request } from "express";
-import { JwtPayload } from "jsonwebtoken";
-import { TokenTypeEnum } from "../utils/security/token.security";
+import { NextFunction, Response, Request } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
+import { TokenTypeEnum } from '../utils/security/token.security.js';
 declare global {
     namespace Express {
         interface Request {

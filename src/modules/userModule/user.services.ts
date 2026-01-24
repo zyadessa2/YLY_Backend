@@ -3,12 +3,12 @@ import {
     BadRequestException,
     ConflictException,
     NotFoundException 
-} from "../../utils/response/error.response";
-import { generateHash } from "../../utils/security/hash.security";
-import { createUserDTO, updateUserDTO } from "./user.DTO";
-import { GovernorateModel } from "../../DB/models/governorate.model";
-import { UserRepo } from "../../DB/repos/User.Repo";
-import { IPaginationResult } from "../../DB/repos/DBRepo";
+} from '../../utils/response/error.response.js';
+import { generateHash } from '../../utils/security/hash.security.js';
+import { createUserDTO, updateUserDTO } from './user.DTO.js';
+import { GovernorateModel } from '../../DB/models/governorate.model.js';
+import { UserRepo } from '../../DB/repos/User.Repo.js';
+import { IPaginationResult } from '../../DB/repos/DBRepo.js';
 
 export class UserService {
     private userRepo = new UserRepo();

@@ -1,13 +1,13 @@
-import express from "express";
-import type { Request, Response } from "express";
-import cors from "cors";
-import helmet from "helmet";
-import rateLimit from "express-rate-limit";
-import { config } from "dotenv";
+import express from 'express';
+import type { Request, Response } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import { config } from 'dotenv';
 
-import router from "./modules/routes";
-import { DBConnection } from "./DB/config/connectDB";
-import { globalErrorHandler } from "./utils/response/error.response";
+import router from './modules/routes.js';
+import { DBConnection } from './DB/config/connectDB.js';
+import { globalErrorHandler } from './utils/response/error.response.js';
 
 if (process.env.NODE_ENV !== "production") {
     config();

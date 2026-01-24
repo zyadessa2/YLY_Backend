@@ -1,6 +1,6 @@
 // news.validation.ts
 import { z } from 'zod';
-import { generalFields, mongoIdSchema } from '../../middleware/validation.schemas';
+import { generalFields, mongoIdSchema } from '../../middleware/validation.schemas.js';
 
 // Create News Schema
 export const createNewsSchema = z.object({

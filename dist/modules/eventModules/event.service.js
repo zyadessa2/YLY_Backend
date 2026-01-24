@@ -1,8 +1,8 @@
-import { AnalyticsModel } from "../../DB/models/analytics.model";
-import { GovernorateModel } from "../../DB/models/governorate.model";
-import { EventRepo } from "../../DB/repos/Event.Repo";
-import { EventRegistrationRepo } from "../../DB/repos/EventRegistration.Repo";
-import { BadRequestException, NotFoundException, ForbidenException, ConflictException } from "../../utils/response/error.response";
+import { AnalyticsModel } from '../../DB/models/analytics.model.js';
+import { GovernorateModel } from '../../DB/models/governorate.model.js';
+import { EventRepo } from '../../DB/repos/Event.Repo.js';
+import { EventRegistrationRepo } from '../../DB/repos/EventRegistration.Repo.js';
+import { BadRequestException, NotFoundException, ForbidenException, ConflictException } from '../../utils/response/error.response.js';
 export class EventService {
     constructor() {
         this.eventRepo = new EventRepo();

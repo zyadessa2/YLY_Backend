@@ -1,9 +1,9 @@
 // user.routes.ts
 import { Router } from 'express';
-import { UserController } from './user.controller';
-import { createUserSchema, updateUserSchema, userIdParamSchema, resetPasswordSchema } from './user.validation';
-import validation from '../../middleware/validation.middleware';
-import { authenticate, authorize } from '../../middleware/auth.middelware';
+import { UserController } from './user.controller.js';
+import { createUserSchema, updateUserSchema, userIdParamSchema, resetPasswordSchema } from './user.validation.js';
+import validation from '../../middleware/validation.middleware.js';
+import { authenticate, authorize } from '../../middleware/auth.middelware.js';
 const router = Router();
 const userController = new UserController();
 // All routes are admin-only

@@ -1,12 +1,12 @@
-import { NextFunction, Response, Request } from "express";
-import { JwtPayload } from "jsonwebtoken";
+import { NextFunction, Response, Request } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 import { 
     BadRequestException, 
     ForbidenException,
     UnAuthorizedException 
-} from "../utils/response/error.response";
-import { decodeToken, TokenTypeEnum } from "../utils/security/token.security";
-import { UserModel } from "../DB/models/user.model";
+} from '../utils/response/error.response.js';
+import { decodeToken, TokenTypeEnum } from '../utils/security/token.security.js';
+import { UserModel } from '../DB/models/user.model.js';
 
 // Extend Express Request type
 declare global {

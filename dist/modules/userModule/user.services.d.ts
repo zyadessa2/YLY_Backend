@@ -1,5 +1,5 @@
-import { createUserDTO, updateUserDTO } from "./user.DTO";
-import { IPaginationResult } from "../../DB/repos/DBRepo";
+import { createUserDTO, updateUserDTO } from './user.DTO.js';
+import { IPaginationResult } from '../../DB/repos/DBRepo.js';
 export declare class UserService {
     private userRepo;
     constructor();

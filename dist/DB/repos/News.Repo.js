@@ -1,5 +1,5 @@
-import { NewsModel } from '../models/news.model';
-import { DBRepo } from './DBRepo';
+import { NewsModel } from '../models/news.model.js';
+import { DBRepo } from './DBRepo.js';
 export class NewsRepo extends DBRepo {
     constructor() {
         super(NewsModel);
