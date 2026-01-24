@@ -22,7 +22,6 @@ const app = express();
 // Middleware setup - MUST come before routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors())
 app.use(helmet())
 
 const limter = rateLimit({
@@ -37,12 +36,13 @@ app.use(limter)
 app.use('/api/v1', router)
 DBConnection().catch(console.error)
 
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
 // global error handler
 app.use(globalErrorHandler)
 
-    // invalid route handler
-    app.use('{/*s}' , (req:Request , res:Response )=>{
-        return res.status(404).json({message: "Route not found"});
-    })
+
 
 export { app };

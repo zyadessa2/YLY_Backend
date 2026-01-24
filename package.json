@@ -7,9 +7,9 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
+    "dev": "ts-node-dev src/index.ts",
     "start": "node ./dist/index.js",
     "start:dev": "node --env-file=.env --watch ./dist/index.js",
-    "dev": "tsc --watch",
     "start:conc": "concurrently \"tsc -w\" \"npm run start:dev\" "
   },
   "dependencies": {
