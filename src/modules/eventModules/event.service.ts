@@ -440,8 +440,12 @@ export class EventService {
         // Increment participant count
         await this.eventRepo.incrementParticipants(eventId);
 
-        // Track in analytics
-        await AnalyticsModel.incrementEventsView(event.governorateId.toString());
+        // Track in analytics; failures shouldn't block registration flow
+        try {
+            await AnalyticsModel.incrementEventView(event.governorateId.toString());
+        } catch (err) {
+            console.error('Failed to track event view in analytics', err);
+        }
 
         return registration;
     };
