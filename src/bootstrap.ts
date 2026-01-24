@@ -20,6 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 
+// Trust the upstream proxy (e.g., load balancer) so rate-limit can read X-Forwarded-For safely
+app.set('trust proxy', 1);
+
 const limiter = rateLimit({
     windowMs: 60 * 60000,
     max: 2000,
