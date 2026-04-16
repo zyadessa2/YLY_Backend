@@ -47,6 +47,10 @@ export class EventService {
             throw new NotFoundException("Governorate not found");
         }
 
+        if (eventData.published && !eventData.publishedAt) {
+            eventData.publishedAt = new Date() as any;
+        }
+
         // Create event
         const newEvent = await this.eventRepo.create({
             ...eventData,
@@ -227,9 +231,9 @@ export class EventService {
             }
         }
 
-        // Validate published/publishedAt relation
-        if (updateData.published && !updateData.publishedAt && !event.publishedAt) {
-            throw new BadRequestException("Published date is required when publishing event");
+        // Auto-populate publishedAt when publishing without explicit date
+        if (updateData.published === true && !updateData.publishedAt && !event.publishedAt) {
+            updateData.publishedAt = new Date() as any;
         }
 
         // Validate max participants vs current participants

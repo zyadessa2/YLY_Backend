@@ -32,6 +32,10 @@ export class NewsService {
             throw new NotFoundException("Governorate not found");
         }
 
+        if (newsData.published && !newsData.publishedAt) {
+            newsData.publishedAt = new Date() as any;
+        }
+
         // Create news
         const newNews = await this.newsRepo.create({
             ...newsData,
@@ -188,9 +192,9 @@ export class NewsService {
             }
         }
 
-        // Validate published/publishedAt relation
-        if (updateData.published && !updateData.publishedAt && !news.publishedAt) {
-            throw new BadRequestException("Published date is required when publishing news");
+        // Auto-populate publishedAt when publishing without explicit date
+        if (updateData.published === true && !updateData.publishedAt && !news.publishedAt) {
+            updateData.publishedAt = new Date() as any;
         }
 
         // Update news

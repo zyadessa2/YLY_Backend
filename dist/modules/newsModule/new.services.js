@@ -24,6 +24,9 @@ class NewsService {
             if (!governorate) {
                 throw new error_response_js_1.NotFoundException("Governorate not found");
             }
+            if (newsData.published && !newsData.publishedAt) {
+                newsData.publishedAt = new Date();
+            }
             // Create news
             const newNews = await this.newsRepo.create({
                 ...newsData,
@@ -152,9 +155,9 @@ class NewsService {
                     throw new error_response_js_1.NotFoundException("Governorate not found");
                 }
             }
-            // Validate published/publishedAt relation
-            if (updateData.published && !updateData.publishedAt && !news.publishedAt) {
-                throw new error_response_js_1.BadRequestException("Published date is required when publishing news");
+            // Auto-populate publishedAt when publishing without explicit date
+            if (updateData.published === true && !updateData.publishedAt && !news.publishedAt) {
+                updateData.publishedAt = new Date();
             }
             // Update news
             const updatePayload = {

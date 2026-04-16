@@ -26,6 +26,9 @@ class EventService {
             if (!governorate) {
                 throw new error_response_js_1.NotFoundException("Governorate not found");
             }
+            if (eventData.published && !eventData.publishedAt) {
+                eventData.publishedAt = new Date();
+            }
             // Create event
             const newEvent = await this.eventRepo.create({
                 ...eventData,
@@ -162,9 +165,9 @@ class EventService {
                     throw new error_response_js_1.NotFoundException("Governorate not found");
                 }
             }
-            // Validate published/publishedAt relation
-            if (updateData.published && !updateData.publishedAt && !event.publishedAt) {
-                throw new error_response_js_1.BadRequestException("Published date is required when publishing event");
+            // Auto-populate publishedAt when publishing without explicit date
+            if (updateData.published === true && !updateData.publishedAt && !event.publishedAt) {
+                updateData.publishedAt = new Date();
             }
             // Validate max participants vs current participants
             if (updateData.maxParticipants && updateData.maxParticipants < event.currentParticipants) {

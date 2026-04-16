@@ -24,19 +24,7 @@ export const createNewsSchema = z.object({
     metaDescription: generalFields.metaDescription,
     arabicMetaTitle: generalFields.metaTitle,
     arabicMetaDescription: generalFields.metaDescription
-}).refine(
-    (data) => {
-        // If published, publishedAt is required
-        if (data.published && !data.publishedAt) {
-            return false;
-        }
-        return true;
-    },
-    {
-        message: 'Published date is required when news is published',
-        path: ['publishedAt']
-    }
-);
+});
 
 // Update News Schema (all fields optional)
 export const updateNewsSchema = createNewsSchema.partial();

@@ -26,15 +26,6 @@ exports.createNewsSchema = zod_1.z.object({
     metaDescription: validation_schemas_js_1.generalFields.metaDescription,
     arabicMetaTitle: validation_schemas_js_1.generalFields.metaTitle,
     arabicMetaDescription: validation_schemas_js_1.generalFields.metaDescription
-}).refine((data) => {
-    // If published, publishedAt is required
-    if (data.published && !data.publishedAt) {
-        return false;
-    }
-    return true;
-}, {
-    message: 'Published date is required when news is published',
-    path: ['publishedAt']
 });
 // Update News Schema (all fields optional)
 exports.updateNewsSchema = exports.createNewsSchema.partial();

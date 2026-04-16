@@ -45,14 +45,6 @@ exports.createEventSchema = zod_1.z.object({
     message: 'End date must be after or equal to event date',
     path: ['endDate']
 }).refine((data) => {
-    if (data.published && !data.publishedAt) {
-        return false;
-    }
-    return true;
-}, {
-    message: 'Published date is required when event is published',
-    path: ['publishedAt']
-}).refine((data) => {
     if (data.registrationDeadline && data.eventDate && data.registrationDeadline > data.eventDate) {
         return false;
     }
