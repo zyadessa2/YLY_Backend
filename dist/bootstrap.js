@@ -10,7 +10,6 @@ const helmet_1 = __importDefault(require("helmet"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const dotenv_1 = require("dotenv");
 const routes_js_1 = __importDefault(require("./modules/routes.js"));
-const connectDB_js_1 = require("./DB/config/connectDB.js");
 const error_response_js_1 = require("./utils/response/error.response.js");
 if (process.env.NODE_ENV !== "production") {
     (0, dotenv_1.config)();
@@ -32,8 +31,6 @@ const limiter = (0, express_rate_limit_1.default)({
 app.use(limiter);
 // Routes
 app.use("/api/v1", routes_js_1.default);
-// DB connection
-(0, connectDB_js_1.DBConnection)().catch(console.error);
 // Invalid route handler 
 app.all('{/*s}', (req, res) => {
     res.status(404).json({ message: "Route not found" });

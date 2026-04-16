@@ -1,1 +1,1 @@
-{"version":3,"file":"connectDB.d.ts","sourceRoot":"","sources":["../../../src/DB/config/connectDB.ts"],"names":[],"mappings":"AAUA,eAAO,MAAM,YAAY,QAAa,OAAO,CAAC,IAAI,CAmBjD,CAAC"}
+{"version":3,"file":"connectDB.d.ts","sourceRoot":"","sources":["../../../src/DB/config/connectDB.ts"],"names":[],"mappings":"AA0BA,eAAO,MAAM,YAAY,QAAa,OAAO,CAAC,IAAI,CAgCjD,CAAC"}

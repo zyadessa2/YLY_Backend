@@ -1,3 +1,4 @@
-import { app } from '../bootstrap.js';
-export default app;
+import type { Request, Response } from 'express';
+declare const _default: (req: Request, res: Response) => Promise<void>;
+export default _default;
 //# sourceMappingURL=index.d.ts.map

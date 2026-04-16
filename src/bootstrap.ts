@@ -6,7 +6,6 @@ import rateLimit from 'express-rate-limit';
 import { config } from 'dotenv';
 
 import router from './modules/routes.js';
-import { DBConnection } from './DB/config/connectDB.js';
 import { globalErrorHandler } from './utils/response/error.response.js';
 
 if (process.env.NODE_ENV !== "production") {
@@ -33,9 +32,6 @@ app.use(limiter);
 
 // Routes
 app.use("/api/v1", router);
-
-// DB connection
-DBConnection().catch(console.error);
 
 // Invalid route handler 
 app.all('{/*s}', (req: Request, res: Response) => {
