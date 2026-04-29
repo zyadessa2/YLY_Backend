@@ -27,7 +27,7 @@ export const createEventSchema = z.object({
   tags: generalFields.tags,
   arabicTags: generalFields.arabicTags,
   contactEmail: generalFields.email.optional(),
-  contactPhone: z.string().regex(/^(\+?20)?1[0125]\d{8}$/).optional(),
+  contactPhone: z.string().max(20).trim().optional(),
   requirements: z.string().max(1000).optional(),
   arabicRequirements: z.string().max(1000).optional(),
   metaTitle: generalFields.metaTitle,

@@ -29,7 +29,7 @@ exports.createEventSchema = zod_1.z.object({
     tags: validation_schemas_js_1.generalFields.tags,
     arabicTags: validation_schemas_js_1.generalFields.arabicTags,
     contactEmail: validation_schemas_js_1.generalFields.email.optional(),
-    contactPhone: zod_1.z.string().regex(/^(\+?20)?1[0125]\d{8}$/).optional(),
+    contactPhone: zod_1.z.string().max(20).trim().optional(),
     requirements: zod_1.z.string().max(1000).optional(),
     arabicRequirements: zod_1.z.string().max(1000).optional(),
     metaTitle: validation_schemas_js_1.generalFields.metaTitle,
