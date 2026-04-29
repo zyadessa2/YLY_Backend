@@ -46,11 +46,34 @@ class ConflictException extends AppError {
 }
 exports.ConflictException = ConflictException;
 const globalErrorHandler = (error, req, res, next) => {
-    return res.status(error.statusCode || 500).json({
-        err_message: error.message || "Internal Server Error",
-        stack: error.stack || "No stack trace available",
-        cause: error.cause
-    });
+    const statusCode = error.statusCode || 500;
+    const isProduction = process.env.NODE_ENV === 'production';
+    // Extract validation errors from cause if present
+    const cause = error.cause;
+    const validationErrors = cause?.validationErrors;
+    // Flatten validation errors into a simple field → message map
+    const fields = {};
+    if (validationErrors?.length) {
+        for (const ve of validationErrors) {
+            for (const issue of ve.issue) {
+                const fieldKey = issue.path ? `${ve.key}.${String(issue.path)}` : ve.key;
+                fields[fieldKey] = issue.message;
+            }
+        }
+    }
+    const response = {
+        success: false,
+        statusCode,
+        message: error.message || 'Internal Server Error',
+    };
+    if (validationErrors?.length) {
+        response['validationErrors'] = fields;
+    }
+    // Only expose stack trace in development
+    if (!isProduction) {
+        response['stack'] = error.stack;
+    }
+    return res.status(statusCode).json(response);
 };
 exports.globalErrorHandler = globalErrorHandler;
 //# sourceMappingURL=error.response.js.map
