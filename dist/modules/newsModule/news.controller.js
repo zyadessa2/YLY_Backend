@@ -19,7 +19,7 @@ class NewsController {
                 if (!userId) {
                     throw new Error("User ID is required");
                 }
-                const result = await this.newsService.createNews(newsData, userId, userRole || 'admin', userGovernorateId);
+                const result = await this.newsService.createNews(newsData, userId, userRole, userGovernorateId);
                 (0, success_response_js_1.successResponse)({
                     res,
                     message: "News created successfully",
@@ -110,7 +110,7 @@ class NewsController {
                 if (!userId) {
                     throw new Error("User ID is required");
                 }
-                const result = await this.newsService.updateNews(newsId, updateData, userId, userRole || 'admin', userGovernorateId);
+                const result = await this.newsService.updateNews(newsId, updateData, userId, userRole, userGovernorateId);
                 (0, success_response_js_1.successResponse)({
                     res,
                     message: "News updated successfully",
@@ -137,7 +137,7 @@ class NewsController {
                 if (!userId) {
                     throw new Error("User ID is required");
                 }
-                await this.newsService.deleteNews(newsId, userId, userRole || 'admin', userGovernorateId);
+                await this.newsService.deleteNews(newsId, userId, userRole, userGovernorateId);
                 (0, success_response_js_1.successResponse)({
                     res,
                     message: "News deleted successfully",

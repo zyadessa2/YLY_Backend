@@ -41,13 +41,12 @@ exports.phoneSchema = zod_1.z.string()
 exports.otpSchema = zod_1.z.string()
     .length(6, 'OTP must be exactly 6 digits')
     .regex(/^\d{6}$/, 'OTP must contain only numbers');
-// Slug validator
+// Slug validator — supports both Latin and Arabic/Unicode characters
 exports.slugSchema = zod_1.z.string()
     .min(1, 'Slug is required')
     .max(200, 'Slug is too long')
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Invalid slug format')
-    .trim()
-    .toLowerCase();
+    .regex(/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u, 'Invalid slug format (letters, numbers, and hyphens only)')
+    .trim();
 // Pagination validators
 exports.paginationSchema = zod_1.z.object({
     page: zod_1.z.string()

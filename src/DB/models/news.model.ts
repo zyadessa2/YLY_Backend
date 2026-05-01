@@ -212,9 +212,20 @@ newsSchema.pre('save', async function (next) {
   if (this.isModified('title') || !this.slug) {
     let baseSlug = slugify(this.title, {
       lower: true,
-      strict: true,
+      strict: false,
       trim: true,
+      locale: 'ar',
+      remove: /[^\p{L}\p{N}\s-]/gu,
     });
+
+    // Fallback for pure Arabic titles slugify can't transliterate
+    if (!baseSlug || baseSlug.trim() === '') {
+      baseSlug = this.title
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^\p{L}\p{N}-]/gu, '')
+        .toLowerCase();
+    }
     
     let slug = baseSlug;
     

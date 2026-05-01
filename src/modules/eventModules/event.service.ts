@@ -17,6 +17,7 @@ import {
     eventRegistrationDTO,
     updateRegistrationStatusDTO
 } from './event.DTO.js';
+import slugify from 'slugify';
 
 export class EventService {
     private eventRepo = new EventRepo();
@@ -248,6 +249,27 @@ export class EventService {
             ...updateData,
             updatedBy: userId
         } as any;
+
+        // Regenerate slug if title or slug is provided
+        if (updateData.title || (updateData as any).slug) {
+            let titleToSlug = (updateData as any).slug || updateData.title || event.title;
+            let baseSlug = slugify(titleToSlug, {
+                lower: true,
+                strict: false,
+                trim: true,
+                locale: 'ar',
+                remove: /[^\p{L}\p{N}\s-]/gu,
+            });
+
+            if (!baseSlug || baseSlug.trim() === '') {
+                baseSlug = titleToSlug
+                  .trim()
+                  .replace(/\s+/g, '-')
+                  .replace(/[^\p{L}\p{N}-]/gu, '')
+                  .toLowerCase();
+            }
+            updatePayload.slug = baseSlug;
+        }
 
         await this.eventRepo.updateOne({
             filter: { _id: eventId },

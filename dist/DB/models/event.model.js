@@ -296,9 +296,20 @@ eventSchema.pre('save', async function (next) {
     if (this.isModified('title') || !this.slug) {
         let baseSlug = (0, slugify_1.default)(this.title, {
             lower: true,
-            strict: true,
+            strict: false,
             trim: true,
+            locale: 'ar',
+            remove: /[^\p{L}\p{N}\s-]/gu,
         });
+        // If title is Arabic, slugify won't transliterate — keep Arabic chars as-is
+        // fallback: replace spaces with hyphens and remove any leftover symbols
+        if (!baseSlug || baseSlug.trim() === '') {
+            baseSlug = this.title
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/[^\p{L}\p{N}-]/gu, '')
+                .toLowerCase();
+        }
         let slug = baseSlug;
         let counter = 1;
         while (await mongoose_1.default.models.Event.findOne({ slug, _id: { $ne: this._id } })) {

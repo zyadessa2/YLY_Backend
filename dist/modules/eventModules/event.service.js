@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventService = void 0;
 const analytics_model_js_1 = require("../../DB/models/analytics.model.js");
@@ -6,6 +9,7 @@ const governorate_model_js_1 = require("../../DB/models/governorate.model.js");
 const Event_Repo_js_1 = require("../../DB/repos/Event.Repo.js");
 const EventRegistration_Repo_js_1 = require("../../DB/repos/EventRegistration.Repo.js");
 const error_response_js_1 = require("../../utils/response/error.response.js");
+const slugify_1 = __importDefault(require("slugify"));
 class EventService {
     constructor() {
         this.eventRepo = new Event_Repo_js_1.EventRepo();
@@ -178,6 +182,25 @@ class EventService {
                 ...updateData,
                 updatedBy: userId
             };
+            // Regenerate slug if title or slug is provided
+            if (updateData.title || updateData.slug) {
+                let titleToSlug = updateData.slug || updateData.title || event.title;
+                let baseSlug = (0, slugify_1.default)(titleToSlug, {
+                    lower: true,
+                    strict: false,
+                    trim: true,
+                    locale: 'ar',
+                    remove: /[^\p{L}\p{N}\s-]/gu,
+                });
+                if (!baseSlug || baseSlug.trim() === '') {
+                    baseSlug = titleToSlug
+                        .trim()
+                        .replace(/\s+/g, '-')
+                        .replace(/[^\p{L}\p{N}-]/gu, '')
+                        .toLowerCase();
+                }
+                updatePayload.slug = baseSlug;
+            }
             await this.eventRepo.updateOne({
                 filter: { _id: eventId },
                 data: updatePayload

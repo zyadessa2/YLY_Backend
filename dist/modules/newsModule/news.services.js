@@ -1,10 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewsService = void 0;
 const error_response_js_1 = require("../../utils/response/error.response.js");
 const analytics_model_js_1 = require("../../DB/models/analytics.model.js");
 const governorate_model_js_1 = require("../../DB/models/governorate.model.js");
 const News_Repo_js_1 = require("../../DB/repos/News.Repo.js");
+const slugify_1 = __importDefault(require("slugify"));
 class NewsService {
     constructor() {
         this.newsRepo = new News_Repo_js_1.NewsRepo();
@@ -161,6 +165,25 @@ class NewsService {
                 ...updateData,
                 updatedBy: userId
             };
+            // Regenerate slug if title or slug is provided
+            if (updateData.title || updateData.slug) {
+                let titleToSlug = updateData.slug || updateData.title || news.title;
+                let baseSlug = (0, slugify_1.default)(titleToSlug, {
+                    lower: true,
+                    strict: false,
+                    trim: true,
+                    locale: 'ar',
+                    remove: /[^\p{L}\p{N}\s-]/gu,
+                });
+                if (!baseSlug || baseSlug.trim() === '') {
+                    baseSlug = titleToSlug
+                        .trim()
+                        .replace(/\s+/g, '-')
+                        .replace(/[^\p{L}\p{N}-]/gu, '')
+                        .toLowerCase();
+                }
+                updatePayload.slug = baseSlug;
+            }
             await this.newsRepo.updateOne({
                 filter: { _id: newsId },
                 data: updatePayload

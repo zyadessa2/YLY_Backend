@@ -8,6 +8,7 @@ import { AnalyticsModel } from '../../DB/models/analytics.model.js';
 import { GovernorateModel } from '../../DB/models/governorate.model.js';
 import { NewsRepo } from '../../DB/repos/News.Repo.js';
 import { IPaginationResult } from '../../DB/repos/DBRepo.js';
+import slugify from 'slugify';
 
 export class NewsService {
     private newsRepo = new NewsRepo();
@@ -198,6 +199,27 @@ export class NewsService {
             ...updateData,
             updatedBy: userId
         } as any;
+
+        // Regenerate slug if title or slug is provided
+        if (updateData.title || (updateData as any).slug) {
+            let titleToSlug = (updateData as any).slug || updateData.title || news.title;
+            let baseSlug = slugify(titleToSlug, {
+                lower: true,
+                strict: false,
+                trim: true,
+                locale: 'ar',
+                remove: /[^\p{L}\p{N}\s-]/gu,
+            });
+
+            if (!baseSlug || baseSlug.trim() === '') {
+                baseSlug = titleToSlug
+                  .trim()
+                  .replace(/\s+/g, '-')
+                  .replace(/[^\p{L}\p{N}-]/gu, '')
+                  .toLowerCase();
+            }
+            updatePayload.slug = baseSlug;
+        }
 
         await this.newsRepo.updateOne({
             filter: { _id: newsId },
